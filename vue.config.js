@@ -1,5 +1,5 @@
 const { defineConfig } = require("@vue/cli-service");
-// const path = require("path");
+const path = require("path");
 
 module.exports = defineConfig({
   transpileDependencies: true,
@@ -9,10 +9,9 @@ module.exports = defineConfig({
       template: "public/index.html", //模板
       filename: "index.html", //输出文件
     },
-    // // 扩展 webpack 配置
-    // chainWebpack: (config) => {
-    //   // 新增一个 ~ 指向 packages 目录, 方便示例代码中使用
-    //   config.resolve.alias.set("~", path.resolve("packages"));
-    // },
+  },
+  chainWebpack: (config) => {
+    config.resolve.alias.set("~", path.resolve("packages"));
+    config.resolve.alias.set("@", path.resolve("examples"));
   },
 });

@@ -20,10 +20,10 @@
       </li>
       <li>
         <a
-          href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-typescript"
+          href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-router"
           target="_blank"
           rel="noopener"
-          >typescript</a
+          >router</a
         >
       </li>
       <li>
@@ -36,10 +36,10 @@
       </li>
       <li>
         <a
-          href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-unit-mocha"
+          href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-unit-jest"
           target="_blank"
           rel="noopener"
-          >unit-mocha</a
+          >unit-jest</a
         >
       </li>
       <li>
@@ -48,6 +48,14 @@
           target="_blank"
           rel="noopener"
           >e2e-cypress</a
+        >
+      </li>
+      <li>
+        <a
+          href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-typescript"
+          target="_blank"
+          rel="noopener"
+          >typescript</a
         >
       </li>
     </ul>

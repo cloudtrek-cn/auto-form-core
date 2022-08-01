@@ -13,10 +13,10 @@
     "useDefineForClassFields": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "types": ["webpack-env", "mocha", "chai"],
+    "types": ["webpack-env", "jest"],
     "paths": {
       "@/*": ["examples/*"],
-      "~/*": ["packages/*"],
+      "~/*": ["packages/*"]
     },
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
