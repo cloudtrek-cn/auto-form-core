@@ -8,6 +8,6 @@ import "@/styles/index.scss";
 Vue.config.productionTip = false;
 Vue.use(AutoForm);
 new Vue({
-  router,
-  render: (h) => h(App),
+    router,
+    render: (h) => h(App),
 }).$mount("#app");

@@ -4,10 +4,10 @@ import Form from "./Form/index";
 
 // 全局注册组件
 const install = (Vue: any) => {
-  Vue.component(Button.name, Button);
-  Vue.component(Form.name, Form);
+    Vue.component(Button.name, Button);
+    Vue.component(Form.name, Form);
 };
 
 export default {
-  install,
+    install,
 };
