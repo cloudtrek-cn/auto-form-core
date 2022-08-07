@@ -42,14 +42,11 @@ export default class HomeView extends Vue {
                     source: "internal",
                     name: "店号/门店",
                     components: "Input",
+                    placeholder: "请输入",
                     defaultProps: {
                         clearable: true,
                     },
                     props: {
-                        placeholder: {
-                            name: "提示文字",
-                            value: "请输入",
-                        },
                         value: {
                             name: "默认内容",
                             value: "",
