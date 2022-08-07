@@ -20,6 +20,11 @@ module.exports = {
             "error",
             {
                 tabWidth: 4,
+                printwidth: 120,
+                jsxBracketSameLine: false,
+            },
+            {
+                usePrettierrc: false,
             },
         ],
     },
