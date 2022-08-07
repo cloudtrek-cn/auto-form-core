@@ -95,7 +95,6 @@ export default class AutoForm extends Vue {
     list: elementItem[];
   }>;
   @Prop({ type: Object, default: null }) public componentsLibrary!: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: Vue.VNode;
   };
 
