@@ -50,6 +50,7 @@ export default class HomeView extends Vue {
                         value: {
                             name: "默认内容",
                             value: "",
+                            required: true,
                         },
                         disabled: {
                             name: "是否禁用",
@@ -67,10 +68,6 @@ export default class HomeView extends Vue {
                         clearable: true,
                     },
                     props: {
-                        placeholder: {
-                            name: "提示文字",
-                            value: "请输入",
-                        },
                         value: {
                             name: "默认内容",
                             value: "",

@@ -65,6 +65,12 @@
                 </draggable>
             </div>
             <div class="right" v-if="activeElId">
+                <div class="attribute customize-attribute">
+                    {{ elementsAttribute[activeElId] }}
+                </div>
+                <div class="attribute customize-attribute">
+                    {{ activeElId }}
+                </div>
                 <div class="right-title">字段属性</div>
                 <div class="attribute default-attribute">
                     <div class="item">
@@ -104,12 +110,23 @@
                             >
                         </div>
                     </div>
-                </div>
-                <div class="attribute customize-attribute">
-                    {{ elementsAttribute[activeElId] }}
-                </div>
-                <div class="customize-attribute">
-                    {{ activeElId }}
+                    <div
+                        class="item"
+                        v-for="(prop, index) in elementsAttribute[activeElId]
+                            .props"
+                        :key="index"
+                    >
+                        <div
+                            class="name"
+                            :class="prop.required ? 'required' : ''"
+                        >
+                            {{ prop.name }}
+                        </div>
+                        <div class="input-box">
+                            <!--  -->
+                            {{ prop }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -140,10 +157,23 @@ interface elementItem {
         [key: string]: unknown;
     };
     props: {
-        [key: string]: {
-            name: string;
-            value: unknown;
-        };
+        [key: string]: customizeAttr;
+    };
+}
+
+interface customizeAttr {
+    name: string;
+    value: unknown;
+    required?: boolean;
+}
+
+interface elAttribute {
+    title: string;
+    placeholder: string;
+    isFilter: boolean;
+    required: boolean;
+    props: {
+        [key: string]: customizeAttr;
     };
 }
 
@@ -170,9 +200,7 @@ export default class AutoForm extends Vue {
     public elements: elementItem[] = [];
     // 选中组件操作
     public elementsAttribute: {
-        [key: string]: {
-            [key: string]: unknown;
-        };
+        [key: string]: elAttribute;
     } = {};
     public activeElId = "";
     public selectComponent(e: elementItem, index: number) {
@@ -193,14 +221,16 @@ export default class AutoForm extends Vue {
     // 复制组件, 增加组件id
     public cloneElement(e: elementItem) {
         const id = `el-${getUUID()}`;
+        const attr: elAttribute = {
+            title: e.title,
+            placeholder: e.placeholder,
+            isFilter: false,
+            required: false,
+            props: e.props,
+        };
         this.elementsAttribute = {
             ...this.elementsAttribute,
-            [id]: {
-                title: e.title,
-                placeholder: e.placeholder,
-                isFilter: false,
-                required: false,
-            },
+            [id]: attr,
         };
         return {
             ...e,
