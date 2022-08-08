@@ -1,15 +1,5 @@
 <template>
     <div class="form-page">
-        <!-- <div class="nav">
-      <div class="nav-item">表单设计</div>
-      <div class="nav-item">预览表单</div>
-      <div class="nav-item">预览表格</div>
-    </div> -->
-        <!-- <nav>
-      <router-link to="/">生成配置</router-link> |
-      <router-link to="/about">预览表单</router-link>
-      <router-link to="/about">预览表格</router-link>
-    </nav> -->
         <auto-form
             :components-list="componentsList"
             :components-library="componentsLibrary"
@@ -37,7 +27,7 @@ export default class HomeView extends Vue {
             title: "基础字段",
             list: [
                 {
-                    icon: "",
+                    icon: "iconfont icon-ic_text",
                     title: "店号/门店",
                     source: "internal",
                     name: "店号/门店",
@@ -59,7 +49,7 @@ export default class HomeView extends Vue {
                     },
                 },
                 {
-                    icon: "",
+                    icon: "iconfont icon-ic_text",
                     title: "文本",
                     name: "text",
                     source: "internal",
@@ -79,21 +69,21 @@ export default class HomeView extends Vue {
                     },
                 },
                 {
-                    icon: "",
+                    icon: "iconfont icon-ic_text",
                     title: "数字",
                     name: "number",
                     source: "internal",
                     components: "Input",
                 },
                 {
-                    icon: "",
+                    icon: "iconfont icon-ic_text",
                     title: "日期",
                     name: "date",
                     source: "internal",
                     components: "Input",
                 },
                 {
-                    icon: "",
+                    icon: "iconfont icon-ic_text",
                     title: "活动",
                     name: "活动",
                     source: "internal",
@@ -104,6 +94,9 @@ export default class HomeView extends Vue {
     ];
     created() {
         // console.log(element);
+    }
+    icon() {
+        //
     }
 }
 </script>

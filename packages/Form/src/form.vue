@@ -1,6 +1,8 @@
 <template>
     <div class="container">
-        <div class="nav-bar"></div>
+        <div class="nav-bar">
+            <i class="iconfont icon-ic_text"></i>
+        </div>
         <div class="main">
             <div class="left">
                 <div
@@ -9,8 +11,6 @@
                     :key="i"
                 >
                     <div class="title">基础字段</div>
-                    <!-- @end="checkMove" -->
-
                     <draggable
                         class="components-list"
                         :list="group.list"
@@ -27,6 +27,10 @@
                             v-for="(element, index) in group.list"
                             :key="index"
                         >
+                            <i
+                                v-if="element.icon"
+                                :class="`icon ${element.icon}`"
+                            ></i>
                             {{ element.title }}
                         </div>
                     </draggable>
@@ -137,46 +141,6 @@ import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import draggable from "vuedraggable";
 import { getUUID } from "~/utils/utils";
 import { Input, Checkbox } from "element-ui";
-
-interface draggableObj {
-    to: {
-        className: string;
-    };
-}
-
-interface elementItem {
-    id: string;
-    icon: string;
-    title: string;
-    source: string;
-    name: string;
-    isActive: boolean;
-    components: string;
-    placeholder: string;
-    defaultProps: {
-        [key: string]: unknown;
-    };
-    props: {
-        [key: string]: customizeAttr;
-    };
-}
-
-interface customizeAttr {
-    name: string;
-    value: unknown;
-    required?: boolean;
-}
-
-interface elAttribute {
-    title: string;
-    placeholder: string;
-    isFilter: boolean;
-    required: boolean;
-    props: {
-        [key: string]: customizeAttr;
-    };
-}
-
 @Component({
     components: {
         draggable,
@@ -188,7 +152,7 @@ export default class AutoForm extends Vue {
     @Prop({ type: Array, default: null })
     public componentsList!: Array<{
         title: string;
-        list: elementItem[];
+        list: AutoForm.elementItem[];
     }>;
     @Prop({ type: Object, default: null }) public componentsLibrary!: {
         [key: string]: Vue.VNode;
@@ -197,13 +161,13 @@ export default class AutoForm extends Vue {
         // console.log(this.componentsLibrary);
     }
     // 组件列表
-    public elements: elementItem[] = [];
+    public elements: AutoForm.elementItem[] = [];
     // 选中组件操作
     public elementsAttribute: {
-        [key: string]: elAttribute;
+        [key: string]: AutoForm.elAttribute;
     } = {};
     public activeElId = "";
-    public selectComponent(e: elementItem, index: number) {
+    public selectComponent(e: AutoForm.elementItem, index: number) {
         const isActive = this.elements[index].isActive;
         this.elements = this.elements.map((item) => {
             item.isActive = false;
@@ -215,13 +179,13 @@ export default class AutoForm extends Vue {
             : "";
     }
     // 判断当前组件是否可以拖动
-    public onMove(e: draggableObj) {
+    public onMove(e: AutoForm.draggableObj) {
         return e.to.className != "components-list";
     }
     // 复制组件, 增加组件id
-    public cloneElement(e: elementItem) {
+    public cloneElement(e: AutoForm.elementItem) {
         const id = `el-${getUUID()}`;
-        const attr: elAttribute = {
+        const attr: AutoForm.elAttribute = {
             title: e.title,
             placeholder: e.placeholder,
             isFilter: false,
@@ -238,7 +202,7 @@ export default class AutoForm extends Vue {
         };
     }
     @Watch("elements")
-    private watchForms(elements: elementItem[]) {
+    private watchForms(elements: AutoForm.elementItem[]) {
         console.log("Watch-elements");
         setTimeout(() => {
             elements.forEach((element) => {
@@ -247,12 +211,11 @@ export default class AutoForm extends Vue {
             });
         }, 0);
     }
-    private setRender(id: string, el: elementItem) {
+    private setRender(id: string, el: AutoForm.elementItem) {
         if (!document.getElementById(id)) {
             return;
         }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const render: any = this.componentsLibrary[el.components];
+        const render: AutoForm.AnyObj = this.componentsLibrary[el.components];
         let props = {
             ...(el.defaultProps ? el.defaultProps : {}),
         };
