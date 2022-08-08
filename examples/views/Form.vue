@@ -38,14 +38,36 @@ export default class HomeView extends Vue {
                     },
                     props: {
                         value: {
+                            type: "input",
                             name: "默认内容",
-                            value: "",
+                            value: "默认内容",
                             required: true,
                         },
-                        disabled: {
-                            name: "是否禁用",
-                            value: false,
-                        },
+                        // disabled: {
+                        //     type: "switch",
+                        //     name: "是否禁用",
+                        //     value: false,
+                        //     required: true,
+                        // },
+                        // checkbox: {
+                        //     type: "checkbox",
+                        //     name: "checkbox",
+                        //     checkbox: ["选项一", "选项二"],
+                        // },
+                        // select: {
+                        //     type: "select",
+                        //     name: "select",
+                        //     select: ["选项一", "选项二"],
+                        // },
+                        // radio: {
+                        //     type: "radio",
+                        //     name: "radio",
+                        //     radio: ["选项一", "选项二"],
+                        // },
+                        // render: {
+                        //     type: "render",
+                        //     name: "自定义组件",
+                        // },
                     },
                 },
                 {

@@ -126,9 +126,11 @@
                         >
                             {{ prop.name }}
                         </div>
-                        <div class="input-box">
-                            <!--  -->
-                            {{ prop }}
+                        <div
+                            class="input-box"
+                            :id="`${activeElId}_prop_${index}`"
+                        >
+                            {{ prop }}{{ index }}
                         </div>
                     </div>
                 </div>
@@ -139,8 +141,8 @@
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import draggable from "vuedraggable";
-import { getUUID } from "~/utils/utils";
-import { Input, Checkbox } from "element-ui";
+import { getUUID, domRender } from "~/utils/utils";
+import { Input, Checkbox, Switch, Select, Radio } from "element-ui";
 @Component({
     components: {
         draggable,
@@ -168,6 +170,7 @@ export default class AutoForm extends Vue {
     } = {};
     public activeElId = "";
     public selectComponent(e: AutoForm.elementItem, index: number) {
+        console.log("--------, selectComponent");
         const isActive = this.elements[index].isActive;
         this.elements = this.elements.map((item) => {
             item.isActive = false;
@@ -177,12 +180,15 @@ export default class AutoForm extends Vue {
         this.activeElId = this.elements[index].isActive
             ? this.elements[index].id
             : "";
+        setTimeout(() => {
+            this.setProp(this.elements[index].id);
+        }, 0);
     }
     // 判断当前组件是否可以拖动
     public onMove(e: AutoForm.draggableObj) {
         return e.to.className != "components-list";
     }
-    // 复制组件, 增加组件id
+    // 复制组件, 增加组件id，增加属性
     public cloneElement(e: AutoForm.elementItem) {
         const id = `el-${getUUID()}`;
         const attr: AutoForm.elAttribute = {
@@ -196,6 +202,7 @@ export default class AutoForm extends Vue {
             ...this.elementsAttribute,
             [id]: attr,
         };
+        console.log(this.elementsAttribute);
         return {
             ...e,
             id,
@@ -203,7 +210,6 @@ export default class AutoForm extends Vue {
     }
     @Watch("elements")
     private watchForms(elements: AutoForm.elementItem[]) {
-        console.log("Watch-elements");
         setTimeout(() => {
             elements.forEach((element) => {
                 const id = element.id;
@@ -219,20 +225,73 @@ export default class AutoForm extends Vue {
         let props = {
             ...(el.defaultProps ? el.defaultProps : {}),
         };
+        console.log(12341234123, el.props);
         for (const key in el.props) {
             props[key] = el.props[key].value;
         }
         props["placeholder"] = el.placeholder;
+        console.log(
+            "--elementsAttribute",
+            JSON.parse(JSON.stringify(this.elementsAttribute[id]))
+        );
+        console.log("--props", JSON.parse(JSON.stringify(props)));
+        // this.elementsAttribute[id].props = props;
+        domRender(id, render, {
+            props,
+        });
+        // 渲染自定义属性
+    }
+    public propsMap: {
+        [key: string]: AutoForm.AnyObj;
+    } = {
+        input: Input,
+        select: Select,
+        switch: Switch,
+        checkbox: Checkbox,
+        radio: Radio,
+    };
+    private setProp(id: string) {
+        const props = this.elementsAttribute[id].props;
+        for (const propKey in props) {
+            const prop = props[propKey];
+            const render = this.propsMap[prop.type]
+                ? this.propsMap[prop.type]
+                : this.propsMap["input"];
+            this.setPropRender(id, render, propKey);
+        }
+    }
+    private setPropRender(
+        id: string,
+        render: AutoForm.AnyObj,
+        propKey: string
+    ) {
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
+        const self = this;
+
         const Profile = Vue.extend({
-            name: "ItemRender",
+            name: "FormRender",
             functional: true,
-            render: (h) => {
+            render: function (h) {
+                // eslint-disable-next-line @typescript-eslint/no-this-alias
+                const that = this;
                 return h(render, {
-                    props,
+                    props: {
+                        value: self.elementsAttribute[id].props[propKey].value,
+                    },
+                    on: {
+                        input: function (event: string) {
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                            (that as any).$emit("input", "that", event);
+                            self.elementsAttribute[id].props[propKey].value =
+                                event;
+                            console.log(self.elementsAttribute[id]);
+                            // self.setRender(id);
+                        },
+                    },
                 });
             },
         });
-        new Profile().$mount(`#${id}`);
+        new Profile().$mount(`#${id}_prop_${propKey}`);
     }
 }
 </script>

@@ -39,8 +39,8 @@ declare namespace AutoForm {
         name: string;
         value: unknown;
         required?: boolean;
+        type: "input" | "select" | "switch" | "checkbox" | "radio" | "render";
     }
-
     interface elAttribute {
         title: string;
         placeholder: string;
