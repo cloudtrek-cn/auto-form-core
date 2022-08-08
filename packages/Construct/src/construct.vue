@@ -157,11 +157,11 @@ import { Input, Checkbox, Switch, Select, RadioGroup } from "element-ui";
         "el-checkbox": Checkbox,
     },
 })
-export default class AutoForm extends Vue {
+export default class AutoConstruct extends Vue {
     @Prop({ type: Array, default: null })
     public componentsList!: Array<{
         title: string;
-        list: AutoForm.elementItem[];
+        list: AutoConstruct.elementItem[];
     }>;
     @Prop({ type: Object, default: null }) public componentsLibrary!: {
         [key: string]: Vue.VNode;
@@ -176,13 +176,13 @@ export default class AutoForm extends Vue {
      * 1、拖拽组件只能使用数组，所以clone的elements组件列表是一个数组
      * 2、通过监听elements的变化来创建更新配置库
      */
-    public elements: AutoForm.elementItem[] = [];
+    public elements: AutoConstruct.elementItem[] = [];
     // 选中组件操作
     public interfaceObj: {
-        [key: string]: AutoForm.elAttribute;
+        [key: string]: AutoConstruct.elAttribute;
     } = {};
     public activeElId = "";
-    public selectComponent(e: AutoForm.elementItem, index: number) {
+    public selectComponent(e: AutoConstruct.elementItem, index: number) {
         const isActive = this.elements[index].isActive;
         this.elements = this.elements.map((item) => {
             item.isActive = false;
@@ -199,13 +199,13 @@ export default class AutoForm extends Vue {
         }
     }
     // 判断当前组件是否可以拖动
-    public onMove(e: AutoForm.draggableObj) {
+    public onMove(e: AutoConstruct.draggableObj) {
         return e.to.className != "components-list";
     }
     // 复制组件, 增加组件id，增加属性
-    public cloneElement(e: AutoForm.elementItem) {
+    public cloneElement(e: AutoConstruct.elementItem) {
         const id = `el-${getUUID()}`;
-        const attr: AutoForm.elAttribute = {
+        const attr: AutoConstruct.elAttribute = {
             title: e.title,
             placeholder: e.placeholder,
             isFilter: false,
@@ -223,7 +223,7 @@ export default class AutoForm extends Vue {
         };
     }
     @Watch("elements")
-    private watchForms(elements: AutoForm.elementItem[]) {
+    private watchForms(elements: AutoConstruct.elementItem[]) {
         Vue.nextTick().then(() => {
             elements.forEach((element) => {
                 const id = element.id;
@@ -240,11 +240,12 @@ export default class AutoForm extends Vue {
         el.placeholder = this.interfaceObj[id].placeholder;
         this.setRender(id, el);
     }
-    private setRender(id: string, el: AutoForm.elementItem) {
+    private setRender(id: string, el: AutoConstruct.elementItem) {
         if (!document.getElementById(id)) {
             return;
         }
-        const render: AutoForm.AnyObj = this.componentsLibrary[el.components];
+        const render: AutoConstruct.AnyObj =
+            this.componentsLibrary[el.components];
         let props = {
             ...(el.defaultProps ? el.defaultProps : {}),
         };
@@ -260,7 +261,7 @@ export default class AutoForm extends Vue {
         // 渲染自定义属性
     }
     public propsMap: {
-        [key: string]: AutoForm.AnyObj;
+        [key: string]: AutoConstruct.AnyObj;
     } = {
         input: Input,
         select: Select,
@@ -285,7 +286,7 @@ export default class AutoForm extends Vue {
     }
     private setPropRender(
         id: string,
-        render: AutoForm.AnyObj,
+        render: AutoConstruct.AnyObj,
         propKey: string,
         children?: Vue.VNodeChildren
     ) {
@@ -294,7 +295,7 @@ export default class AutoForm extends Vue {
             name: "FormRender",
             functional: true,
             render: function (h) {
-                const that: AutoForm.Any = this;
+                const that: AutoConstruct.Any = this;
                 return h(
                     "div",
                     {
@@ -331,7 +332,7 @@ export default class AutoForm extends Vue {
     public async save() {
         let data: {
             title: string;
-            field: AutoForm.elAttribute[];
+            field: AutoConstruct.elAttribute[];
         } = {
             title: this.title,
             field: [],

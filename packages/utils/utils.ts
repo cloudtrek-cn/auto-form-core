@@ -17,8 +17,8 @@ export const sleep = function (ms: number) {
 
 export const domRender = (
     id: string,
-    render: AutoForm.AnyObj,
-    attr?: AutoForm.AnyObj
+    render: AutoConstruct.AnyObj,
+    attr?: AutoConstruct.AnyObj
 ) => {
     const Profile = Vue.extend({
         name: "ItemRender",

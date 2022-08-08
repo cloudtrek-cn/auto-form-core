@@ -1,5 +1,5 @@
 <template>
-    <div class="form-page">form</div>
+    <div class="table-page">table</div>
 </template>
 
 <script lang="ts">
@@ -8,10 +8,10 @@ import { Component, Vue } from "vue-property-decorator";
 @Component({
     components: {},
 })
-export default class Form extends Vue {}
+export default class Table extends Vue {}
 </script>
 <style scoped>
-.form-page {
+.table-page {
     width: 100vw;
     height: 100vh;
     padding: 0;

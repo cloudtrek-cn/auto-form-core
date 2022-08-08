@@ -7,7 +7,7 @@ declare module "*.vue" {
     export default component;
 }
 
-declare namespace AutoForm {
+declare namespace AutoConstruct {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     type Any = any;
     interface AnyObj {
