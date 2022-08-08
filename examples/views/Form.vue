@@ -82,12 +82,16 @@ export default class HomeView extends Vue {
                     },
                     props: {
                         value: {
+                            type: "input",
                             name: "默认内容",
                             value: "",
+                            required: true,
                         },
                         disabled: {
+                            type: "switch",
                             name: "是否禁用",
                             value: false,
+                            required: true,
                         },
                     },
                 },

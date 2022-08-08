@@ -16,6 +16,7 @@ module.exports = {
         indent: ["error", 4],
         "@typescript-eslint/no-var-requires": "off",
         "eslint-disable-next-line": "off",
+        "@typescript-eslint/no-this-alias": "off",
         "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
         "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
         "prettier/prettier": [

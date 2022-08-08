@@ -2,7 +2,6 @@
     <div class="container">
         <div class="nav-bar">
             <i class="iconfont icon-ic_text"></i>
-            <div class="cc" id="test"></div>
         </div>
         <div class="main">
             <div class="left">
@@ -41,7 +40,11 @@
                 <draggable
                     class="element-list"
                     :list="elements"
-                    :group="{ name: 'form-group', pull: false, put: true }"
+                    :group="{
+                        name: 'form-group',
+                        pull: false,
+                        put: true,
+                    }"
                 >
                     <div
                         :class="`element-item ${
@@ -64,7 +67,9 @@
                                 interfaceObj[element.id].title || element.title
                             }}
                         </div>
-                        <div class="element" :id="element.id" />
+                        <div class="element" :id="element.id">
+                            <div class="childen"></div>
+                        </div>
                     </div>
                 </draggable>
             </div>
@@ -127,7 +132,9 @@
                         <div
                             class="input-box"
                             :id="`${activeElId}_prop_${index}`"
-                        />
+                        >
+                            <div class="childen"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -138,7 +145,8 @@
 import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import draggable from "vuedraggable";
 import { getUUID, domRender } from "~/utils/utils";
-import { Input, Checkbox, Switch, Select, Radio, RadioGroup } from "element-ui";
+import { Input, Checkbox, Switch, Select, RadioGroup } from "element-ui";
+// Radio
 @Component({
     components: {
         draggable,
@@ -180,9 +188,11 @@ export default class AutoForm extends Vue {
         this.activeElId = this.elements[index].isActive
             ? this.elements[index].id
             : "";
-        setTimeout(() => {
-            this.setProp(this.elements[index].id);
-        }, 0);
+        if (!isActive) {
+            Vue.nextTick().then(() => {
+                this.setProp(this.elements[index].id);
+            });
+        }
     }
     // 判断当前组件是否可以拖动
     public onMove(e: AutoForm.draggableObj) {
@@ -210,12 +220,12 @@ export default class AutoForm extends Vue {
     }
     @Watch("elements")
     private watchForms(elements: AutoForm.elementItem[]) {
-        setTimeout(() => {
+        Vue.nextTick().then(() => {
             elements.forEach((element) => {
                 const id = element.id;
                 this.setRender(id, element);
             });
-        }, 0);
+        });
     }
     // 根据自定义属性的更新重新渲染组件
     private uploadInterfaceObj(id: string) {
@@ -261,8 +271,9 @@ export default class AutoForm extends Vue {
             const render = this.propsMap[prop.type]
                 ? this.propsMap[prop.type]
                 : this.propsMap["input"];
-
-            this.setPropRender(id, render, propKey);
+            Vue.nextTick().then(() => {
+                this.setPropRender(id, render, propKey);
+            });
         }
     }
     public changePlaceholder(id: string) {
@@ -274,36 +285,44 @@ export default class AutoForm extends Vue {
         propKey: string,
         children?: Vue.VNodeChildren
     ) {
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
         const self = this;
-
         const Profile = Vue.extend({
             name: "FormRender",
             functional: true,
             render: function (h) {
-                // eslint-disable-next-line @typescript-eslint/no-this-alias
-                const that = this;
+                const that: AutoForm.Any = this;
                 return h(
-                    render,
+                    "div",
                     {
-                        props: {
-                            value: self.interfaceObj[id].props[propKey].value,
-                        },
-                        on: {
-                            input: function (event: string) {
-                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                (that as any).$emit("input", "that", event);
-                                self.interfaceObj[id].props[propKey].value =
-                                    event;
-                                self.uploadInterfaceObj(id);
-                            },
+                        attrs: {
+                            class: "childen",
                         },
                     },
-                    children
+                    [
+                        h(
+                            render,
+                            {
+                                props: {
+                                    value: self.interfaceObj[id].props[propKey]
+                                        .value,
+                                },
+                                on: {
+                                    input: function (event: string) {
+                                        that.$emit("input", "that", event);
+                                        self.interfaceObj[id].props[
+                                            propKey
+                                        ].value = event;
+                                        self.uploadInterfaceObj(id);
+                                    },
+                                },
+                            },
+                            children
+                        ),
+                    ]
                 );
             },
         });
-        new Profile().$mount(`#${id}_prop_${propKey}`);
+        new Profile().$mount(`#${id}_prop_${propKey} .childen`);
     }
 }
 </script>
@@ -333,6 +352,7 @@ export default class AutoForm extends Vue {
             background: #ffffff;
             box-shadow: inset -1px 0px 0px 0px #dcdfe6;
             padding-top: 24px;
+            overflow: scroll;
             .field-group {
                 width: 100%;
                 padding: 0 16px;
@@ -379,6 +399,7 @@ export default class AutoForm extends Vue {
             background: #ffffff;
             box-shadow: 0px 1px 6px 0px rgba(196, 199, 204, 0.5);
             margin: 0 20px;
+            overflow: scroll;
             .element-list {
                 width: 100%;
                 min-height: 100%;
@@ -408,6 +429,14 @@ export default class AutoForm extends Vue {
                             right: 0;
                         }
                     }
+                    &::before {
+                        content: "";
+                        display: inline-block;
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        z-index: 99;
+                    }
                     .title {
                         font-size: 14px;
                         font-family: PingFangSC-Medium, PingFang SC;
@@ -424,11 +453,9 @@ export default class AutoForm extends Vue {
                         }
                     }
                     .element {
-                        width: 240px;
-                        height: 32px;
+                        width: 100%;
                         background: #ffffff;
                         border-radius: 4px;
-                        border: 1px solid #dcdfe6;
                     }
                 }
             }
@@ -439,6 +466,7 @@ export default class AutoForm extends Vue {
             background: #ffffff;
             box-shadow: inset 1px 0px 0px 0px #dcdfe6;
             padding: 24px 16px;
+            overflow: scroll;
             .right-title {
                 font-size: 14px;
                 font-family: SourceHanSansCN-Medium, SourceHanSansCN;

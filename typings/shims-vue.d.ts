@@ -8,6 +8,8 @@ declare module "*.vue" {
 }
 
 declare namespace AutoForm {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    type Any = any;
     interface AnyObj {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         [key: string]: any;

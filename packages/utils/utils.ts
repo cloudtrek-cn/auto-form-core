@@ -28,12 +28,12 @@ export const domRender = (
                 "div",
                 {
                     attrs: {
-                        id,
+                        class: "childen",
                     },
                 },
                 [h(render, attr)]
             );
         },
     });
-    new Profile().$mount(`#${id}`);
+    new Profile().$mount(`#${id} .childen`);
 };
