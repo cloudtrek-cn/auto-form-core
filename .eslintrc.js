@@ -14,6 +14,7 @@ module.exports = {
     },
     rules: {
         indent: ["error", 4],
+        "@typescript-eslint/no-var-requires": "off",
         "eslint-disable-next-line": "off",
         "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
         "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",

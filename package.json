@@ -1,20 +1,21 @@
 {
-    "name": "auto-form",
-    "version": "0.1.0",
-    "private": true,
-    "main": "lib/index.umd.js",
+    "name": "@cloudtrek/auto-form",
+    "version": "0.1.1",
+    "main": "lib/index.umd.min.js",
     "scripts": {
         "serve": "vue-cli-service serve",
         "test:unit": "vue-cli-service test:unit",
         "test:e2e": "vue-cli-service test:e2e",
         "lint": "vue-cli-service lint",
         "fix": "vue-cli-service lint --fix",
-        "build": "yarn build:clean && yarn build:lib && yarn build:esm-bundle && rimraf lib/demo.html",
-        "build:clean": "rimraf lib",
-        "build:lib": "vue-cli-service build --target lib --name index --dest lib packages/index.ts",
-        "build:esm-bundle": "rollup --config ./rollup.config.js",
         "lib": "vue-cli-service build --target lib --name index --dest lib packages/index.ts"
     },
+    "typings": "types/index.d.ts",
+    "files": [
+        "lib",
+        "packages",
+        "types"
+    ],
     "dependencies": {
         "core-js": "^3.8.3",
         "element-ui": "^2.15.9",

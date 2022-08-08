@@ -14,4 +14,9 @@ module.exports = defineConfig({
         config.resolve.alias.set("~", path.resolve("packages"));
         config.resolve.alias.set("@", path.resolve("examples"));
     },
+    configureWebpack: {
+        output: {
+            libraryExport: "default",
+        },
+    },
 });

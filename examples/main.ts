@@ -1,7 +1,11 @@
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
-import AutoForm from "../packages/index";
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const AutoForm = require("../lib/index.umd.min.js");
+import "../lib/index.css";
+
+// import AutoForm from "../packages/index";
 
 import "@/styles/index.scss";
 
