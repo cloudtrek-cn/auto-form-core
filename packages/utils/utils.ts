@@ -24,7 +24,15 @@ export const domRender = (
         name: "ItemRender",
         functional: true,
         render: (h) => {
-            return h(render, attr);
+            return h(
+                "div",
+                {
+                    attrs: {
+                        id,
+                    },
+                },
+                [h(render, attr)]
+            );
         },
     });
     new Profile().$mount(`#${id}`);

@@ -49,5 +49,6 @@ declare namespace AutoForm {
         props: {
             [key: string]: customizeAttr;
         };
+        elTemplate: elementItem;
     }
 }

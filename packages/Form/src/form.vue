@@ -55,14 +55,13 @@
                         <div
                             class="title"
                             :class="
-                                elementsAttribute[element.id].required
+                                interfaceObj[element.id].required
                                     ? 'required'
                                     : ''
                             "
                         >
                             {{
-                                elementsAttribute[element.id].title ||
-                                element.title
+                                interfaceObj[element.id].title || element.title
                             }}
                         </div>
                         <div class="element" :id="element.id" />
@@ -71,7 +70,7 @@
             </div>
             <div class="right" v-if="activeElId">
                 <div class="attribute customize-attribute">
-                    {{ elementsAttribute[activeElId] }}
+                    {{ interfaceObj[activeElId] }}
                 </div>
                 <div class="attribute customize-attribute">
                     {{ activeElId }}
@@ -83,14 +82,14 @@
                         <div class="input-box">
                             <el-input
                                 class="attribute-input"
-                                v-model="elementsAttribute[activeElId].title"
+                                v-model="interfaceObj[activeElId].title"
                             />
                         </div>
                     </div>
                     <div class="item">
                         <div class="input-box">
                             <el-checkbox
-                                v-model="elementsAttribute[activeElId].isFilter"
+                                v-model="interfaceObj[activeElId].isFilter"
                                 >设置为筛选项</el-checkbox
                             >
                         </div>
@@ -100,9 +99,8 @@
                         <div class="input-box">
                             <el-input
                                 class="attribute-input"
-                                v-model="
-                                    elementsAttribute[activeElId].placeholder
-                                "
+                                @input="changePlaceholder(activeElId)"
+                                v-model="interfaceObj[activeElId].placeholder"
                             />
                         </div>
                     </div>
@@ -110,15 +108,14 @@
                         <div class="name">校验</div>
                         <div class="input-box">
                             <el-checkbox
-                                v-model="elementsAttribute[activeElId].required"
+                                v-model="interfaceObj[activeElId].required"
                                 >必填</el-checkbox
                             >
                         </div>
                     </div>
                     <div
                         class="item"
-                        v-for="(prop, index) in elementsAttribute[activeElId]
-                            .props"
+                        v-for="(prop, index) in interfaceObj[activeElId].props"
                         :key="index"
                     >
                         <div
@@ -130,9 +127,7 @@
                         <div
                             class="input-box"
                             :id="`${activeElId}_prop_${index}`"
-                        >
-                            {{ prop }}{{ index }}
-                        </div>
+                        />
                     </div>
                 </div>
             </div>
@@ -162,16 +157,16 @@ export default class AutoForm extends Vue {
     };
     mounted() {
         // console.log(this.componentsLibrary);
-        domRender("test", Input, {
-            attrs: {
-                placeholder: "asdfasdf",
-            },
-        });
     }
-    // 组件列表
+    /**
+     * 组件列表
+     * 作用：
+     * 1、拖拽组件只能使用数组，所以clone的elements组件列表是一个数组
+     * 2、通过监听elements的变化来创建更新配置库
+     */
     public elements: AutoForm.elementItem[] = [];
     // 选中组件操作
-    public elementsAttribute: {
+    public interfaceObj: {
         [key: string]: AutoForm.elAttribute;
     } = {};
     public activeElId = "";
@@ -202,12 +197,12 @@ export default class AutoForm extends Vue {
             isFilter: false,
             required: false,
             props: e.props,
+            elTemplate: e,
         };
-        this.elementsAttribute = {
-            ...this.elementsAttribute,
+        this.interfaceObj = {
+            ...this.interfaceObj,
             [id]: attr,
         };
-        console.log(this.elementsAttribute);
         return {
             ...e,
             id,
@@ -218,56 +213,18 @@ export default class AutoForm extends Vue {
         setTimeout(() => {
             elements.forEach((element) => {
                 const id = element.id;
-                console.log("-----element", JSON.stringify(element));
                 this.setRender(id, element);
             });
         }, 0);
     }
-    private uploadElementsAttribute(id: string) {
-        console.log(12341234, id);
-        console.log(this.elementsAttribute[id]);
-        // const el = {
-        //     icon: "iconfont icon-ic_text",
-        //     title: "店号/门店",
-        //     source: "internal",
-        //     name: "店号/门店",
-        //     components: "Input",
-        //     placeholder: "请输入",
-        //     defaultProps: {
-        //         clearable: true,
-        //     },
-        //     props: {
-        //         value: {
-        //             type: "input",
-        //             name: "默认内容",
-        //             value: "",
-        //             required: true,
-        //         },
-        //         disabled: {
-        //             type: "switch",
-        //             name: "是否禁用",
-        //             value: false,
-        //             required: true,
-        //         },
-        //     },
-        //     id,
-        //     isActive: true,
-        // };
-        // // upload 组件
-        // const el: AutoForm.elementItem = {
-        //     id,
-        //     icon: "",
-        //     title: "",
-        //     source: "",
-        //     name: "",
-        //     isActive: false,
-        //     components: "",
-        //     placeholder: "",
-        //     defaultProps: {},
-        //     props: {},
-        // };
-        // self.setRender(id, el);
-        // 取数据重新渲染组件
+    // 根据自定义属性的更新重新渲染组件
+    private uploadInterfaceObj(id: string) {
+        let el = this.interfaceObj[id].elTemplate;
+        for (const key in this.interfaceObj[id].props) {
+            el.props[key].value = this.interfaceObj[id].props[key].value;
+        }
+        el.placeholder = this.interfaceObj[id].placeholder;
+        this.setRender(id, el);
     }
     private setRender(id: string, el: AutoForm.elementItem) {
         if (!document.getElementById(id)) {
@@ -298,7 +255,7 @@ export default class AutoForm extends Vue {
         radio: RadioGroup,
     };
     private setProp(id: string) {
-        const props = this.elementsAttribute[id].props;
+        const props = this.interfaceObj[id].props;
         for (const propKey in props) {
             const prop = props[propKey];
             const render = this.propsMap[prop.type]
@@ -307,6 +264,9 @@ export default class AutoForm extends Vue {
 
             this.setPropRender(id, render, propKey);
         }
+    }
+    public changePlaceholder(id: string) {
+        this.uploadInterfaceObj(id);
     }
     private setPropRender(
         id: string,
@@ -327,17 +287,15 @@ export default class AutoForm extends Vue {
                     render,
                     {
                         props: {
-                            value: self.elementsAttribute[id].props[propKey]
-                                .value,
+                            value: self.interfaceObj[id].props[propKey].value,
                         },
                         on: {
                             input: function (event: string) {
                                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                 (that as any).$emit("input", "that", event);
-                                self.elementsAttribute[id].props[
-                                    propKey
-                                ].value = event;
-                                self.uploadElementsAttribute(id);
+                                self.interfaceObj[id].props[propKey].value =
+                                    event;
+                                self.uploadInterfaceObj(id);
                             },
                         },
                     },
