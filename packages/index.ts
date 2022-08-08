@@ -2,11 +2,13 @@
 import Form from "./Form/index";
 import Table from "./Table/index";
 
+const components = [Form, Table];
+
 // 全局注册组件
 const install = (Vue: any) => {
-    // console.log(Form);
-    Vue.component(Form.name, Form);
-    Vue.component(Table.name, Table);
+    components.map((component) => {
+        Vue.component(component.name, component);
+    });
 };
 
 export default {

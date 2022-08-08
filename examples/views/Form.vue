@@ -31,7 +31,7 @@ export default class HomeView extends Vue {
                     title: "店号/门店",
                     source: "internal",
                     name: "店号/门店",
-                    components: "ct-input",
+                    components: "Input",
                     placeholder: "请输入",
                     defaultProps: {
                         clearable: true,
@@ -40,7 +40,7 @@ export default class HomeView extends Vue {
                         value: {
                             type: "input",
                             name: "默认内容",
-                            value: "默认内容",
+                            value: "",
                             required: true,
                         },
                         disabled: {
@@ -49,26 +49,26 @@ export default class HomeView extends Vue {
                             value: false,
                             required: true,
                         },
-                        checkbox: {
-                            type: "checkbox",
-                            name: "checkbox",
-                            checkbox: ["选项一", "选项二"],
-                        },
-                        select: {
-                            type: "select",
-                            name: "select",
-                            select: ["选项一", "选项二"],
-                        },
-                        radio: {
-                            type: "radio",
-                            name: "radio",
-                            radio: ["选项一", "选项二"],
-                        },
-                        render: {
-                            type: "render",
-                            name: "自定义组件",
-                            render: "",
-                        },
+                        // checkbox: {
+                        //     type: "checkbox",
+                        //     name: "checkbox",
+                        //     checkbox: ["选项一", "选项二"],
+                        // },
+                        // select: {
+                        //     type: "select",
+                        //     name: "select",
+                        //     select: ["选项一", "选项二"],
+                        // },
+                        // radio: {
+                        //     type: "radio",
+                        //     name: "radio",
+                        //     radio: ["选项一", "选项二"],
+                        // },
+                        // render: {
+                        //     type: "render",
+                        //     name: "自定义组件",
+                        //     render: "",
+                        // },
                     },
                 },
                 {

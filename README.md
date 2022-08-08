@@ -15,7 +15,7 @@ Vue.use(AutoForm);
 ```
 
 
-### FromDemo
+### FormDemo
 
 ``` Vue
 <template>

@@ -2,6 +2,7 @@
     <div class="container">
         <div class="nav-bar">
             <i class="iconfont icon-ic_text"></i>
+            <div class="cc" id="test"></div>
         </div>
         <div class="main">
             <div class="left">
@@ -142,7 +143,7 @@
 import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import draggable from "vuedraggable";
 import { getUUID, domRender } from "~/utils/utils";
-import { Input, Checkbox, Switch, Select, Radio } from "element-ui";
+import { Input, Checkbox, Switch, Select, Radio, RadioGroup } from "element-ui";
 @Component({
     components: {
         draggable,
@@ -161,6 +162,11 @@ export default class AutoForm extends Vue {
     };
     mounted() {
         // console.log(this.componentsLibrary);
+        domRender("test", Input, {
+            attrs: {
+                placeholder: "asdfasdf",
+            },
+        });
     }
     // 组件列表
     public elements: AutoForm.elementItem[] = [];
@@ -170,7 +176,6 @@ export default class AutoForm extends Vue {
     } = {};
     public activeElId = "";
     public selectComponent(e: AutoForm.elementItem, index: number) {
-        console.log("--------, selectComponent");
         const isActive = this.elements[index].isActive;
         this.elements = this.elements.map((item) => {
             item.isActive = false;
@@ -213,9 +218,56 @@ export default class AutoForm extends Vue {
         setTimeout(() => {
             elements.forEach((element) => {
                 const id = element.id;
+                console.log("-----element", JSON.stringify(element));
                 this.setRender(id, element);
             });
         }, 0);
+    }
+    private uploadElementsAttribute(id: string) {
+        console.log(12341234, id);
+        console.log(this.elementsAttribute[id]);
+        // const el = {
+        //     icon: "iconfont icon-ic_text",
+        //     title: "店号/门店",
+        //     source: "internal",
+        //     name: "店号/门店",
+        //     components: "Input",
+        //     placeholder: "请输入",
+        //     defaultProps: {
+        //         clearable: true,
+        //     },
+        //     props: {
+        //         value: {
+        //             type: "input",
+        //             name: "默认内容",
+        //             value: "",
+        //             required: true,
+        //         },
+        //         disabled: {
+        //             type: "switch",
+        //             name: "是否禁用",
+        //             value: false,
+        //             required: true,
+        //         },
+        //     },
+        //     id,
+        //     isActive: true,
+        // };
+        // // upload 组件
+        // const el: AutoForm.elementItem = {
+        //     id,
+        //     icon: "",
+        //     title: "",
+        //     source: "",
+        //     name: "",
+        //     isActive: false,
+        //     components: "",
+        //     placeholder: "",
+        //     defaultProps: {},
+        //     props: {},
+        // };
+        // self.setRender(id, el);
+        // 取数据重新渲染组件
     }
     private setRender(id: string, el: AutoForm.elementItem) {
         if (!document.getElementById(id)) {
@@ -225,19 +277,14 @@ export default class AutoForm extends Vue {
         let props = {
             ...(el.defaultProps ? el.defaultProps : {}),
         };
-        console.log(12341234123, el.props);
         for (const key in el.props) {
             props[key] = el.props[key].value;
         }
-        props["placeholder"] = el.placeholder;
-        console.log(
-            "--elementsAttribute",
-            JSON.parse(JSON.stringify(this.elementsAttribute[id]))
-        );
-        console.log("--props", JSON.parse(JSON.stringify(props)));
-        // this.elementsAttribute[id].props = props;
         domRender(id, render, {
             props,
+            attrs: {
+                placeholder: el.placeholder,
+            },
         });
         // 渲染自定义属性
     }
@@ -248,7 +295,7 @@ export default class AutoForm extends Vue {
         select: Select,
         switch: Switch,
         checkbox: Checkbox,
-        radio: Radio,
+        radio: RadioGroup,
     };
     private setProp(id: string) {
         const props = this.elementsAttribute[id].props;
@@ -257,13 +304,15 @@ export default class AutoForm extends Vue {
             const render = this.propsMap[prop.type]
                 ? this.propsMap[prop.type]
                 : this.propsMap["input"];
+
             this.setPropRender(id, render, propKey);
         }
     }
     private setPropRender(
         id: string,
         render: AutoForm.AnyObj,
-        propKey: string
+        propKey: string,
+        children?: Vue.VNodeChildren
     ) {
         // eslint-disable-next-line @typescript-eslint/no-this-alias
         const self = this;
@@ -274,21 +323,26 @@ export default class AutoForm extends Vue {
             render: function (h) {
                 // eslint-disable-next-line @typescript-eslint/no-this-alias
                 const that = this;
-                return h(render, {
-                    props: {
-                        value: self.elementsAttribute[id].props[propKey].value,
-                    },
-                    on: {
-                        input: function (event: string) {
-                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                            (that as any).$emit("input", "that", event);
-                            self.elementsAttribute[id].props[propKey].value =
-                                event;
-                            console.log(self.elementsAttribute[id]);
-                            // self.setRender(id);
+                return h(
+                    render,
+                    {
+                        props: {
+                            value: self.elementsAttribute[id].props[propKey]
+                                .value,
+                        },
+                        on: {
+                            input: function (event: string) {
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                (that as any).$emit("input", "that", event);
+                                self.elementsAttribute[id].props[
+                                    propKey
+                                ].value = event;
+                                self.uploadElementsAttribute(id);
+                            },
                         },
                     },
-                });
+                    children
+                );
             },
         });
         new Profile().$mount(`#${id}_prop_${propKey}`);

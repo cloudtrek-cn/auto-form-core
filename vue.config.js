@@ -13,6 +13,15 @@ module.exports = defineConfig({
     chainWebpack: (config) => {
         config.resolve.alias.set("~", path.resolve("packages"));
         config.resolve.alias.set("@", path.resolve("examples"));
+        config.module
+            .rule("js")
+            .include.add("/packages")
+            .end()
+            .use("babel")
+            .loader("babel-loader")
+            .tap((options) => {
+                return options;
+            });
     },
     configureWebpack: {
         output: {
