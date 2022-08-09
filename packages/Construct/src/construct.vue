@@ -1,15 +1,7 @@
 <template>
     <div class="container">
         <div class="nav-bar">
-            <div class="back-box">
-                <i class="icon iconfont icon-ic_text"></i>
-            </div>
-            <div class="title-box">
-                {{ title }}
-            </div>
-            <div class="save-box" @click="save">
-                <slot name="save"></slot>
-            </div>
+            <slot name="navbar"></slot>
         </div>
         <div class="main">
             <div class="left">
@@ -163,10 +155,11 @@ export default class AutoConstruct extends Vue {
         title: string;
         list: AutoConstruct.elementItem[];
     }>;
+    @Prop({ type: String, default: "未命名" })
+    public title!: string;
     @Prop({ type: Object, default: null }) public componentsLibrary!: {
         [key: string]: Vue.VNode;
     };
-    public title = "未命名模板";
     mounted() {
         // console.log(this.componentsLibrary);
     }
@@ -329,7 +322,7 @@ export default class AutoConstruct extends Vue {
         });
         new Profile().$mount(`#${id}_prop_${propKey} .childen`);
     }
-    public async save() {
+    public save() {
         let data: {
             title: string;
             field: AutoConstruct.elAttribute[];
@@ -342,7 +335,7 @@ export default class AutoConstruct extends Vue {
                 ...this.interfaceObj[element.id],
             });
         });
-        console.log(JSON.stringify(data));
+        return data;
     }
 }
 </script>

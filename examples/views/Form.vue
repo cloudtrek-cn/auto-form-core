@@ -8,7 +8,7 @@ import { Component, Vue } from "vue-property-decorator";
 @Component({
     components: {},
 })
-export default class Form extends Vue {}
+export default class AutoForm extends Vue {}
 </script>
 <style scoped>
 .form-page {

@@ -10,6 +10,8 @@ import AutoForm from "~/index";
 
 import "@/styles/index.scss";
 
+console.log(AutoForm);
+
 Vue.config.productionTip = false;
 Vue.use(AutoForm);
 new Vue({

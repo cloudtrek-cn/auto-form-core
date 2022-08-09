@@ -1,11 +1,21 @@
 <template>
     <div class="construct-page">
-        <auto-form
+        <auto-construct
+            ref="autoConstruct"
             :components-list="componentsList"
             :components-library="componentsLibrary"
+            :title="title"
         >
-            <div class="save" slot="save">保存</div>
-        </auto-form>
+            <div class="navbar" slot="navbar">
+                <div class="back">返回</div>
+                <div class="title">
+                    <el-input v-model="title"></el-input>
+                </div>
+                <div class="save">
+                    <el-button @click="save">保存</el-button>
+                </div>
+            </div>
+        </auto-construct>
     </div>
 </template>
 
@@ -13,11 +23,16 @@
 import { Component, Vue } from "vue-property-decorator";
 import * as element from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
+import AutoForm from "~/index";
 
 @Component({
-    components: {},
+    components: {
+        "el-input": element.Input,
+        "el-button": element.Button,
+    },
 })
 export default class Construct extends Vue {
+    public title = "title";
     public componentsLibrary = {
         ...element,
     };
@@ -48,21 +63,6 @@ export default class Construct extends Vue {
                             value: false,
                             required: true,
                         },
-                        // checkbox: {
-                        //     type: "checkbox",
-                        //     name: "checkbox",
-                        //     checkbox: ["选项一", "选项二"],
-                        // },
-                        // select: {
-                        //     type: "select",
-                        //     name: "select",
-                        //     select: ["选项一", "选项二"],
-                        // },
-                        // radio: {
-                        //     type: "radio",
-                        //     name: "radio",
-                        //     radio: ["选项一", "选项二"],
-                        // },
                         // render: {
                         //     type: "render",
                         //     name: "自定义组件",
@@ -124,13 +124,23 @@ export default class Construct extends Vue {
     icon() {
         //
     }
+    save() {
+        const data = (
+            this.$refs["autoConstruct"] as typeof AutoForm.Construct.prototype
+        ).save();
+        console.log(data);
+    }
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .construct-page {
     width: 100vw;
     height: 100vh;
     padding: 0;
-    /* background: red; */
+    .navbar {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
 }
 </style>

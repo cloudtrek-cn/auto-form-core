@@ -15,4 +15,6 @@ const install = (Vue: any) => {
 export default {
     install,
     Form,
+    Construct,
+    Table,
 };
