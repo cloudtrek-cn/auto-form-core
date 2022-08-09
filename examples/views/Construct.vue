@@ -63,11 +63,13 @@ export default class Construct extends Vue {
                             value: false,
                             required: true,
                         },
-                        // render: {
-                        //     type: "render",
-                        //     name: "自定义组件",
-                        //     render: "",
-                        // },
+                        render: {
+                            type: "render",
+                            name: "自定义组件",
+                            render: "Input",
+                            value: "value",
+                            required: true,
+                        },
                     },
                 },
                 {
@@ -118,12 +120,6 @@ export default class Construct extends Vue {
             ],
         },
     ];
-    created() {
-        // console.log(element);
-    }
-    icon() {
-        //
-    }
     save() {
         const data = (
             this.$refs["autoConstruct"] as typeof AutoForm.Construct.prototype

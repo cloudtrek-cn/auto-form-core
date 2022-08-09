@@ -42,6 +42,7 @@ declare namespace AutoConstruct {
         value: unknown;
         required?: boolean;
         type: "input" | "select" | "switch" | "checkbox" | "radio" | "render";
+        render: string;
     }
     interface elAttribute {
         title: string;

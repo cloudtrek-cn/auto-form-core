@@ -14,31 +14,44 @@ import "@cloudtrek/auto-form/lib/index.css";
 Vue.use(AutoForm);
 ```
 
-
-### FormDemo
+### 字段编辑器
 
 ``` Vue
 <template>
-    <div class="form-page">
-        <auto-form
+    <div class="construct-page">
+        <auto-construct
+            ref="autoConstruct"
             :components-list="componentsList"
             :components-library="componentsLibrary"
-        ></auto-form>
+            :title="title"
+        >
+            <div class="navbar" slot="navbar">
+                <div class="back">返回</div>
+                <div class="title">
+                    <el-input v-model="title"></el-input>
+                </div>
+                <div class="save">
+                    <el-button @click="save">保存</el-button>
+                </div>
+            </div>
+        </auto-construct>
     </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
 import * as element from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
+import AutoForm from "~/index";
 
 @Component({
     components: {
-        HelloWorld,
+        "el-input": element.Input,
+        "el-button": element.Button,
     },
 })
-export default class HomeView extends Vue {
+export default class Construct extends Vue {
+    public title = "title";
     public componentsLibrary = {
         ...element,
     };
@@ -51,7 +64,7 @@ export default class HomeView extends Vue {
                     title: "店号/门店",
                     source: "internal",
                     name: "店号/门店",
-                    components: "ct-input",
+                    components: "Input",
                     placeholder: "请输入",
                     defaultProps: {
                         clearable: true,
@@ -60,7 +73,7 @@ export default class HomeView extends Vue {
                         value: {
                             type: "input",
                             name: "默认内容",
-                            value: "默认内容",
+                            value: "",
                             required: true,
                         },
                         disabled: {
@@ -69,25 +82,12 @@ export default class HomeView extends Vue {
                             value: false,
                             required: true,
                         },
-                        checkbox: {
-                            type: "checkbox",
-                            name: "checkbox",
-                            checkbox: ["选项一", "选项二"],
-                        },
-                        select: {
-                            type: "select",
-                            name: "select",
-                            select: ["选项一", "选项二"],
-                        },
-                        radio: {
-                            type: "radio",
-                            name: "radio",
-                            radio: ["选项一", "选项二"],
-                        },
                         render: {
                             type: "render",
                             name: "自定义组件",
-                            render: "",
+                            render: "Input",
+                            value: "value",
+                            required: true,
                         },
                     },
                 },
@@ -102,12 +102,16 @@ export default class HomeView extends Vue {
                     },
                     props: {
                         value: {
+                            type: "input",
                             name: "默认内容",
                             value: "",
+                            required: true,
                         },
                         disabled: {
+                            type: "switch",
                             name: "是否禁用",
                             value: false,
+                            required: true,
                         },
                     },
                 },
@@ -135,20 +139,24 @@ export default class HomeView extends Vue {
             ],
         },
     ];
-    created() {
-        // console.log(element);
-    }
-    icon() {
-        //
+    save() {
+        const data = (
+            this.$refs["autoConstruct"] as typeof AutoForm.Construct.prototype
+        ).save();
+        console.log(data);
     }
 }
 </script>
-<style scoped>
-.form-page {
+<style lang="scss" scoped>
+.construct-page {
     width: 100vw;
     height: 100vh;
     padding: 0;
-    /* background: red; */
+    .navbar {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
 }
 </style>
 

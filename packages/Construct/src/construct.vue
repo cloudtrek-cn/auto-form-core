@@ -266,9 +266,13 @@ export default class AutoConstruct extends Vue {
         const props = this.interfaceObj[id].props;
         for (const propKey in props) {
             const prop = props[propKey];
-            const render = this.propsMap[prop.type]
-                ? this.propsMap[prop.type]
-                : this.propsMap["input"];
+            let render: AutoConstruct.AnyObj = this.propsMap["Input"];
+            if (this.propsMap[prop.type]) {
+                render = this.propsMap[prop.type];
+            }
+            if (prop.type === "render") {
+                render = this.componentsLibrary[prop.render];
+            }
             Vue.nextTick().then(() => {
                 this.setPropRender(id, render, propKey);
             });
