@@ -24,17 +24,21 @@ import { Component, Vue } from "vue-property-decorator";
 import * as element from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import AutoForm from "~/index";
+import Demo from "@/components/Demo.vue";
 
 @Component({
     components: {
         "el-input": element.Input,
         "el-button": element.Button,
+        "ct-demo": Demo,
     },
 })
 export default class Construct extends Vue {
     public title = "title";
+    public demo = "aaa";
     public componentsLibrary = {
         ...element,
+        "ct-demo": Demo,
     };
     public componentsList = [
         {
@@ -70,6 +74,13 @@ export default class Construct extends Vue {
                             value: "value",
                             required: true,
                         },
+                        // disabled: {
+                        //     type: "render",
+                        //     name: "Demo组件",
+                        //     render: "ct-demo",
+                        //     value: 100,
+                        //     required: true,
+                        // },
                     },
                 },
                 {
