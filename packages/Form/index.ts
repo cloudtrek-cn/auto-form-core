@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Form from "./src/form.vue";
-Form.install = (app: any): void => {
-    app.component(Form.name, Form);
+import From from "./src/form.vue";
+From.install = (app: any): void => {
+    console.log(12341234);
+    app.component(From.name, From);
 };
 
-export default Form;
+export default From;
