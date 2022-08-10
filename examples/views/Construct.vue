@@ -5,6 +5,7 @@
             :initData="initData"
             :components-list="componentsList"
             :components-library="componentsLibrary"
+            :async-del="asyncDel"
             :title="title"
         >
             <div class="navbar" slot="navbar">
@@ -16,6 +17,7 @@
                     <el-button @click="save">保存</el-button>
                 </div>
             </div>
+            <div slot="del-icon">del</div>
         </auto-construct>
     </div>
 </template>
@@ -239,6 +241,14 @@ export default class Construct extends Vue {
             this.$refs["autoConstruct"] as typeof AutoForm.Construct.prototype
         ).save();
         console.log(JSON.stringify(data));
+    }
+    asyncDel() {
+        return new Promise((resolve) => {
+            alert("3秒钟后删除");
+            setTimeout(() => {
+                resolve(true);
+            }, 3000);
+        });
     }
 }
 </script>

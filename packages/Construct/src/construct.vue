@@ -53,9 +53,11 @@
                         }`"
                         v-for="(element, index) in elements"
                         :key="index"
-                        @click="selectComponent(element, index)"
+                        @click.self="selectComponent(element, index)"
                     >
-                        <div class="del-btn">del</div>
+                        <div class="del-btn" @click="del(element, index)">
+                            <slot name="del-icon"></slot>
+                        </div>
                         <div
                             class="title"
                             :class="
@@ -164,6 +166,9 @@ export default class AutoConstruct extends Vue {
         title: string;
         field: AutoConstruct.elAttribute[];
     };
+    @Prop({ type: Function, default: null }) public asyncDel!:
+        | null
+        | ((id: string) => boolean);
     mounted() {
         this.setComponentsListObj();
         this.setValue();
@@ -340,7 +345,6 @@ export default class AutoConstruct extends Vue {
         children?: Vue.VNodeChildren
     ) {
         const self = this;
-        console.log(12312341234, self.interfaceObj[id].props[propKey]);
         const attrs = self.interfaceObj[id].props[propKey].attrs || {};
         const props = self.interfaceObj[id].props[propKey].props || {};
         const Profile = Vue.extend({
@@ -398,6 +402,14 @@ export default class AutoConstruct extends Vue {
             });
         });
         return data;
+    }
+    public async del(e: AutoConstruct.elementItem, index: number) {
+        const status = this.asyncDel ? await this.asyncDel(e.id) : true;
+        if (!status) {
+            return;
+        }
+        this.elements.splice(index, 1);
+        delete this.interfaceObj[e.id];
     }
 }
 </script>
@@ -475,7 +487,7 @@ export default class AutoConstruct extends Vue {
                         color: #313233;
                         line-height: 32px;
                         padding-left: 8px;
-                        cursor: pointer;
+                        cursor: crosshair;
                     }
                 }
             }
@@ -493,10 +505,21 @@ export default class AutoConstruct extends Vue {
                 .element-item {
                     width: 100%;
                     padding: 10px 12px;
-                    cursor: pointer;
+                    cursor: crosshair;
                     position: relative;
                     .del-btn {
-                        display: none;
+                        // display: none;
+                        position: absolute;
+                        display: inline-block;
+                        width: 24px;
+                        height: 24px;
+                        background: #ffffff;
+                        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.15);
+                        border-radius: 4px;
+                        top: 0;
+                        right: 0;
+                        z-index: 999;
+                        cursor: pointer;
                     }
                     &.active {
                         background: #f5f9ff;
@@ -513,6 +536,8 @@ export default class AutoConstruct extends Vue {
                             border-radius: 4px;
                             top: 0;
                             right: 0;
+                            z-index: 9999;
+                            cursor: pointer;
                         }
                     }
                     &::before {
