@@ -2,7 +2,6 @@
 import Form from "./Form/index";
 import Table from "./Table/index";
 import Construct from "./Construct/index";
-
 const components = [Construct, Form, Table];
 
 // 全局注册组件
@@ -13,7 +12,7 @@ const install = (Vue: any) => {
 };
 
 export default {
-    version: "0.2.4",
+    version: "0.3.1",
     install,
     Form,
     Construct,

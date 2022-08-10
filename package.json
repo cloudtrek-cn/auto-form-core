@@ -1,6 +1,6 @@
 {
     "name": "@cloudtrek/auto-form",
-    "version": "0.2.4",
+    "version": "0.3.1",
     "main": "lib/index.umd.min.js",
     "scripts": {
         "serve": "vue-cli-service serve",
@@ -8,7 +8,8 @@
         "test:e2e": "vue-cli-service test:e2e",
         "lint": "vue-cli-service lint",
         "fix": "vue-cli-service lint --fix",
-        "lib": "vue-cli-service build --target lib --name index --dest lib packages/index.ts"
+        "lib": "vue-cli-service build --target lib --name index --dest lib packages/index.ts",
+        "push": "yarn lib && git add lib && npm publish --registry https://cnpm.c2star.com"
     },
     "typings": "types/index.d.ts",
     "files": [

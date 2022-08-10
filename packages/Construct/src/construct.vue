@@ -160,9 +160,56 @@ export default class AutoConstruct extends Vue {
     @Prop({ type: Object, default: null }) public componentsLibrary!: {
         [key: string]: Vue.VNode;
     };
+    @Prop({ type: Object, default: null }) public initData!: {
+        title: string;
+        field: AutoConstruct.elAttribute[];
+    };
     mounted() {
-        // console.log(this.componentsLibrary);
+        this.setComponentsListObj();
+        this.setValue();
     }
+    setValue() {
+        if (!this.initData) {
+            return;
+        }
+        const field = this.initData.field;
+        for (const index in field) {
+            const item = field[index];
+            const { props, placeholder, title, isFilter, required, id } = item;
+            const elTemplateName = item.elTemplateName;
+            if (this.componentsListObj[elTemplateName]) {
+                let el = this.cloneElement({
+                    ...this.componentsListObj[elTemplateName],
+                    id,
+                });
+                el.placeholder = placeholder;
+                el.props = props;
+                el.title = title;
+                el.required = required;
+                el.isFilter = isFilter;
+                this.elements.push(el);
+                this.interfaceObj[id].props = props;
+                this.interfaceObj[id].title = title;
+                this.interfaceObj[id].isFilter = isFilter;
+                this.interfaceObj[id].required = required;
+                this.interfaceObj[id].placeholder = placeholder;
+            }
+        }
+    }
+    private componentsListObj: {
+        [key: string]: AutoConstruct.elementItem;
+    } = {};
+    setComponentsListObj() {
+        this.componentsList.forEach((list) => {
+            list.list.forEach((item) => {
+                this.componentsListObj = {
+                    ...this.componentsListObj,
+                    [item.name]: item,
+                };
+            });
+        });
+    }
+
     /**
      * 组件列表
      * 作用：
@@ -197,14 +244,15 @@ export default class AutoConstruct extends Vue {
     }
     // 复制组件, 增加组件id，增加属性
     public cloneElement(e: AutoConstruct.elementItem) {
-        const id = `el-${getUUID()}`;
+        const id = e.id ? e.id : `el-${getUUID()}`;
         const attr: AutoConstruct.elAttribute = {
+            id,
             title: e.title,
             placeholder: e.placeholder,
-            isFilter: false,
-            required: false,
+            isFilter: e.isFilter ? e.isFilter : false,
+            required: e.required ? e.required : false,
             props: e.props,
-            elTemplate: e,
+            elTemplateName: e.name,
         };
         this.interfaceObj = {
             ...this.interfaceObj,
@@ -226,7 +274,11 @@ export default class AutoConstruct extends Vue {
     }
     // 根据自定义属性的更新重新渲染组件
     private uploadInterfaceObj(id: string) {
-        let el = this.interfaceObj[id].elTemplate;
+        const elTemplateName = this.interfaceObj[id].elTemplateName;
+        let el = this.componentsListObj[elTemplateName];
+        if (!el) {
+            return;
+        }
         for (const key in this.interfaceObj[id].props) {
             el.props[key].value = this.interfaceObj[id].props[key].value;
         }
@@ -337,6 +389,7 @@ export default class AutoConstruct extends Vue {
         this.elements.forEach((element) => {
             data.field.push({
                 ...this.interfaceObj[element.id],
+                id: element.id,
             });
         });
         return data;

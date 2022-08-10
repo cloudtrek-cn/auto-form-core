@@ -29,6 +29,8 @@ declare namespace AutoConstruct {
         isActive: boolean;
         components: string;
         placeholder: string;
+        isFilter?: boolean;
+        required?: boolean;
         defaultProps: {
             [key: string]: unknown;
         };
@@ -45,6 +47,7 @@ declare namespace AutoConstruct {
         render: string;
     }
     interface elAttribute {
+        id: string;
         title: string;
         placeholder: string;
         isFilter: boolean;
@@ -52,6 +55,7 @@ declare namespace AutoConstruct {
         props: {
             [key: string]: customizeAttr;
         };
-        elTemplate: elementItem;
+        elTemplate?: elementItem;
+        elTemplateName: string;
     }
 }
