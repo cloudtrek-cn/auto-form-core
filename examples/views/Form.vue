@@ -15,14 +15,12 @@
 import { Component, Vue } from "vue-property-decorator";
 import * as element from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
-import Demo from "@/components/Demo.vue";
 import AutoForm from "~/index";
 
 @Component({
     components: {
         "el-input": element.Input,
         "el-button": element.Button,
-        "ct-demo": Demo,
     },
 })
 export default class Construct extends Vue {
@@ -30,7 +28,6 @@ export default class Construct extends Vue {
     public demo = "aaa";
     public componentsLibrary = {
         ...element,
-        "ct-demo": Demo,
     };
     public componentsList = [
         {
@@ -66,13 +63,6 @@ export default class Construct extends Vue {
                             value: "value",
                             required: true,
                         },
-                        // disabled: {
-                        //     type: "render",
-                        //     name: "Demo组件",
-                        //     render: "ct-demo",
-                        //     value: 100,
-                        //     required: true,
-                        // },
                     },
                 },
                 {
@@ -186,7 +176,7 @@ export default class Construct extends Vue {
             {
                 id: "el-abcbdc54-e3e5-4201-ac08-6cabf12c043c",
                 title: "店号",
-                placeholder: "请输入32222222222222222",
+                placeholder: "请输入3222222",
                 isFilter: false,
                 required: true,
                 props: {
@@ -215,7 +205,10 @@ export default class Construct extends Vue {
         ],
     };
     public value = {
+        "el-19572d6a-05af-4b59-b08e-9c32b16fdb29": "阿斯顿发斯蒂芬",
+        "el-a65f067f-a9af-41b2-936e-df9eb4c047e9": "是超大上发大水",
         "el-0b6fb673-91c2-4990-8b3f-8870c4ca86b2": "测试日期",
+        "el-abcbdc54-e3e5-4201-ac08-6cabf12c043c": null,
     };
     public save() {
         const data = (
