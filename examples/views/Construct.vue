@@ -62,6 +62,17 @@ export default class Construct extends Vue {
                             value: "",
                             required: true,
                         },
+                        test: {
+                            type: "input",
+                            name: "test属性",
+                            value: "",
+                            required: true,
+                            props: {},
+                            attrs: {
+                                class: "test-attr",
+                                id: "test-attr-id",
+                            },
+                        },
                         disabled: {
                             type: "switch",
                             name: "是否禁用",

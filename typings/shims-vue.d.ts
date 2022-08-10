@@ -45,6 +45,12 @@ declare namespace AutoConstruct {
         required?: boolean;
         type: "input" | "select" | "switch" | "checkbox" | "radio" | "render";
         render: string;
+        attrs?: {
+            [key: string]: unknown;
+        };
+        props?: {
+            [key: string]: unknown;
+        };
     }
     interface elAttribute {
         id: string;
@@ -98,6 +104,12 @@ declare namespace AutoForm {
         required?: boolean;
         type: "input" | "select" | "switch" | "checkbox" | "radio" | "render";
         render: string;
+        attrs?: {
+            [key: string]: unknown;
+        };
+        props?: {
+            [key: string]: unknown;
+        };
     }
     interface elAttribute {
         id: string;

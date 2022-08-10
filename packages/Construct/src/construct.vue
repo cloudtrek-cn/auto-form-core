@@ -340,6 +340,9 @@ export default class AutoConstruct extends Vue {
         children?: Vue.VNodeChildren
     ) {
         const self = this;
+        console.log(12312341234, self.interfaceObj[id].props[propKey]);
+        const attrs = self.interfaceObj[id].props[propKey].attrs || {};
+        const props = self.interfaceObj[id].props[propKey].props || {};
         const Profile = Vue.extend({
             name: "FormRender",
             functional: true,
@@ -356,7 +359,9 @@ export default class AutoConstruct extends Vue {
                         h(
                             render,
                             {
+                                attrs,
                                 props: {
+                                    ...props,
                                     value: self.interfaceObj[id].props[propKey]
                                         .value,
                                 },
