@@ -154,14 +154,6 @@ export default class AutoForm extends Vue {
             if (!render) {
                 return;
             }
-            const props: {
-                [key: string]: unknown;
-            } = {};
-            for (const key in item.props) {
-                if (key !== "value") {
-                    props[key] = item.props[key].value;
-                }
-            }
             const attrs: {
                 [key: string]: unknown;
             } = {};
@@ -170,6 +162,18 @@ export default class AutoForm extends Vue {
                     attrs[key] = item.attrs[key].value;
                 }
             }
+            const props: {
+                [key: string]: unknown;
+            } = {};
+            for (const key in item.props) {
+                if (key !== "value") {
+                    props[key] = item.props[key].value;
+                }
+                if (item.props[key].isAttr) {
+                    attrs[key] = item.props[key].value;
+                }
+            }
+
             const Profile = Vue.extend({
                 name: "FormRender",
                 functional: true,

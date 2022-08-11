@@ -1,8 +1,9 @@
 <template>
     <div class="construct-page">
+        <!-- :initData="initData" -->
+
         <auto-construct
             ref="autoConstruct"
-            :initData="initData"
             :components-list="componentsList"
             :components-library="componentsLibrary"
             :async-del="asyncDel"
@@ -62,6 +63,14 @@ export default class Construct extends Vue {
                             type: "input",
                             name: "默认内容",
                             value: "",
+                            required: true,
+                        },
+                        maxlength: {
+                            type: "input",
+                            name: "最大长度",
+                            props: {},
+                            value: "",
+                            isAttr: true,
                             required: true,
                         },
                         test: {

@@ -34,7 +34,13 @@ declare namespace AutoConstruct {
         defaultProps: {
             [key: string]: unknown;
         };
+        defaultAttrs: {
+            [key: string]: unknown;
+        };
         props: {
+            [key: string]: customizeAttr;
+        };
+        attrs: {
             [key: string]: customizeAttr;
         };
     }
@@ -45,6 +51,7 @@ declare namespace AutoConstruct {
         required?: boolean;
         type: "input" | "select" | "switch" | "checkbox" | "radio" | "render";
         render: string;
+        isAttr?: boolean;
         attrs?: {
             [key: string]: unknown;
         };
@@ -104,9 +111,7 @@ declare namespace AutoForm {
         required?: boolean;
         type: "input" | "select" | "switch" | "checkbox" | "radio" | "render";
         render: string;
-        attrs?: {
-            [key: string]: unknown;
-        };
+        isAttr?: boolean;
         props?: {
             [key: string]: unknown;
         };
