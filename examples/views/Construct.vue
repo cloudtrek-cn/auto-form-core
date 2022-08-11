@@ -1,10 +1,9 @@
 <template>
     <div class="construct-page">
-        <!-- :initData="initData" -->
-
         <auto-construct
             ref="autoConstruct"
             :components-list="componentsList"
+            :initData="initData"
             :components-library="componentsLibrary"
             :async-del="asyncDel"
             :title="title"
@@ -159,14 +158,15 @@ export default class Construct extends Vue {
         field: [
             {
                 id: "el-a65f067f-a9af-41b2-936e-df9eb4c047e9",
-                title: "文本",
+                title: "阿斯蒂芬",
+                placeholder: "阿斯蒂芬",
                 isFilter: false,
                 required: false,
                 props: {
                     value: {
                         type: "input",
                         name: "默认内容",
-                        value: "",
+                        value: "阿斯蒂芬",
                         required: true,
                     },
                     disabled: {
@@ -187,8 +187,8 @@ export default class Construct extends Vue {
             },
             {
                 id: "el-abcbdc54-e3e5-4201-ac08-6cabf12c043c",
-                title: "店号/门店dafasdfddf",
-                placeholder: "请输入32222222222222222",
+                title: "店号/门店",
+                placeholder: "请输入3222222",
                 isFilter: false,
                 required: true,
                 props: {
@@ -201,7 +201,7 @@ export default class Construct extends Vue {
                     disabled: {
                         type: "switch",
                         name: "是否禁用",
-                        value: true,
+                        value: false,
                         required: true,
                     },
                     render: {
@@ -220,7 +220,15 @@ export default class Construct extends Vue {
         const data = (
             this.$refs["autoConstruct"] as typeof AutoForm.Construct.prototype
         ).save();
-        console.log(JSON.stringify(data));
+        element.MessageBox.alert(JSON.stringify(data, null, 4), {
+            confirmButtonText: "确定",
+            callback: (action) => {
+                this.$message({
+                    type: "info",
+                    message: `action: ${action}`,
+                });
+            },
+        });
     }
     asyncDel() {
         return new Promise((resolve) => {

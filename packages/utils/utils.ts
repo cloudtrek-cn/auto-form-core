@@ -24,7 +24,6 @@ export const domRender = (
         name: "ItemRender",
         functional: true,
         render: (h) => {
-            console.log(12341234, attr);
             return h(
                 "div",
                 {

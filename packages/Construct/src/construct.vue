@@ -66,9 +66,8 @@
                                     : ''
                             "
                         >
-                            {{
-                                interfaceObj[element.id].title || element.title
-                            }}
+                            {{ interfaceObj[element.id].title || element.title
+                            }}{{ element.id }}
                         </div>
                         <div class="element" :id="element.id">
                             <div class="childen"></div>
@@ -184,7 +183,9 @@ export default class AutoConstruct extends Vue {
             const elTemplateName = item.elTemplateName;
             if (this.componentsListObj[elTemplateName]) {
                 let el = this.cloneElement({
-                    ...this.componentsListObj[elTemplateName],
+                    ...JSON.parse(
+                        JSON.stringify(this.componentsListObj[elTemplateName])
+                    ),
                     id,
                 });
                 el.placeholder = placeholder;
@@ -231,18 +232,17 @@ export default class AutoConstruct extends Vue {
     } = {};
     public activeElId = "";
     public selectComponent(e: AutoConstruct.elementItem, index: number) {
-        const isActive = this.elements[index].isActive;
+        const element = this.elements[index];
+        const isActive = element.isActive;
         this.elements = this.elements.map((item) => {
             item.isActive = false;
             return item;
         });
-        this.elements[index].isActive = !isActive;
-        this.activeElId = this.elements[index].isActive
-            ? this.elements[index].id
-            : "";
+        element.isActive = !isActive;
+        this.activeElId = element.isActive ? element.id : "";
         if (!isActive) {
             Vue.nextTick().then(() => {
-                this.setProp(this.elements[index].id);
+                this.setProp(element.id);
             });
         }
     }
@@ -283,7 +283,9 @@ export default class AutoConstruct extends Vue {
     // 根据自定义属性的更新重新渲染组件
     private uploadInterfaceObj(id: string) {
         const elTemplateName = this.interfaceObj[id].elTemplateName;
-        let el = this.componentsListObj[elTemplateName];
+        let el = JSON.parse(
+            JSON.stringify(this.componentsListObj[elTemplateName])
+        );
         if (!el) {
             return;
         }
@@ -305,10 +307,12 @@ export default class AutoConstruct extends Vue {
         for (const key in el.props) {
             props[key] = el.props[key].value;
         }
+
         domRender(id, render, {
             props,
             attrs: {
-                placeholder: el.placeholder,
+                placeholder:
+                    this.interfaceObj[id].placeholder || el.placeholder,
             },
         });
         // 渲染自定义属性
@@ -490,7 +494,7 @@ export default class AutoConstruct extends Vue {
                         color: #313233;
                         line-height: 32px;
                         padding-left: 8px;
-                        cursor: crosshair;
+                        cursor: move;
                     }
                 }
             }
@@ -508,12 +512,12 @@ export default class AutoConstruct extends Vue {
                 .element-item {
                     width: 100%;
                     padding: 10px 12px;
-                    cursor: crosshair;
+                    cursor: move;
                     position: relative;
                     .del-btn {
-                        // display: none;
+                        display: none;
                         position: absolute;
-                        display: inline-block;
+                        // display: inline-block;
                         width: 24px;
                         height: 24px;
                         background: #ffffff;

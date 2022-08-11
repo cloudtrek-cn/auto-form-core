@@ -91,12 +91,12 @@ export default class AutoForm extends Vue {
     }
     initInterfaceValue() {
         const field = this.initData ? this.initData.field : [];
-        const value = this.value || {};
+        const value = this.value || null;
         field.forEach((item) => {
-            console.log(item);
+            const defaultValue = item.props?.value.value || null;
             this.interfaceValue[item.id] = value[item.id]
                 ? value[item.id]
-                : null;
+                : defaultValue;
         });
     }
     initDomList() {
@@ -157,20 +157,18 @@ export default class AutoForm extends Vue {
             const attrs: {
                 [key: string]: unknown;
             } = {};
-            for (const key in item.attrs) {
-                if (key !== "value") {
-                    attrs[key] = item.attrs[key].value;
-                }
-            }
             const props: {
                 [key: string]: unknown;
             } = {};
             for (const key in item.props) {
-                if (key !== "value") {
-                    props[key] = item.props[key].value;
-                }
                 if (item.props[key].isAttr) {
                     attrs[key] = item.props[key].value;
+                }
+                if (key === "value") {
+                    console.log(12341, item.props[key].value);
+                }
+                if (key != "value") {
+                    props[key] = item.props[key].value;
                 }
             }
 
@@ -213,15 +211,15 @@ export default class AutoForm extends Vue {
         });
     }
     save() {
-        (this.$refs["form"] as Form).validate((valid) => {
-            if (valid) {
-                alert("submit!");
-            } else {
-                console.log("error submit!!");
-                return false;
-            }
+        return new Promise((resolve, reject) => {
+            (this.$refs["form"] as Form).validate((valid) => {
+                if (valid) {
+                    resolve(this.interfaceValue);
+                } else {
+                    reject(false);
+                }
+            });
         });
-        return this.interfaceValue;
     }
 }
 </script>
