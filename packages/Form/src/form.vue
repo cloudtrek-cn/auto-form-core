@@ -162,6 +162,14 @@ export default class AutoForm extends Vue {
                     props[key] = item.props[key].value;
                 }
             }
+            const attrs: {
+                [key: string]: unknown;
+            } = {};
+            for (const key in item.attrs) {
+                if (key !== "value") {
+                    attrs[key] = item.attrs[key].value;
+                }
+            }
             const Profile = Vue.extend({
                 name: "FormRender",
                 functional: true,
@@ -179,6 +187,9 @@ export default class AutoForm extends Vue {
                                 props: {
                                     ...props,
                                     value: self.interfaceValue[id],
+                                },
+                                attrs: {
+                                    ...attrs,
                                 },
                                 on: {
                                     input: function (event: string) {

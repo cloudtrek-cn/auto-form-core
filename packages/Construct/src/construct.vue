@@ -200,6 +200,9 @@ export default class AutoConstruct extends Vue {
                 this.interfaceObj[id].placeholder = placeholder;
             }
         }
+        if (this.elements.length) {
+            this.selectComponent(this.elements[0], 0);
+        }
     }
     private componentsListObj: {
         [key: string]: AutoConstruct.elementItem;
