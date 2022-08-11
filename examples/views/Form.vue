@@ -121,7 +121,8 @@ export default class Construct extends Vue {
                 title: "店号/门店",
                 placeholder: "请输入",
                 isFilter: false,
-                required: false,
+                required: true,
+                requiredMsg: "必填的字段哦",
                 props: {
                     value: {
                         type: "input",

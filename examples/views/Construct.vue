@@ -149,35 +149,6 @@ export default class Construct extends Vue {
         title: "title",
         field: [
             {
-                id: "el-19572d6a-05af-4b59-b08e-9c32b16fdb29",
-                title: "店号/门店",
-                placeholder: "请输入",
-                isFilter: false,
-                required: false,
-                props: {
-                    value: {
-                        type: "input",
-                        name: "默认内容",
-                        value: "1231",
-                        required: true,
-                    },
-                    disabled: {
-                        type: "switch",
-                        name: "是否禁用",
-                        value: false,
-                        required: true,
-                    },
-                    render: {
-                        type: "render",
-                        name: "自定义组件",
-                        render: "Input",
-                        value: "value",
-                        required: true,
-                    },
-                },
-                elTemplateName: "店号/门店",
-            },
-            {
                 id: "el-a65f067f-a9af-41b2-936e-df9eb4c047e9",
                 title: "文本",
                 isFilter: false,
@@ -215,7 +186,7 @@ export default class Construct extends Vue {
                     value: {
                         type: "input",
                         name: "默认内容",
-                        value: "1231",
+                        value: "",
                         required: true,
                     },
                     disabled: {

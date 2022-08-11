@@ -1,29 +1,47 @@
 <template>
     <div class="container">
-        <div class="form" id="form" :class="formClass">
-            <div
-                class="item"
-                :class="input.required ? 'required' : ''"
+        <el-form :model="interfaceValue" :rules="rules" ref="form">
+            <el-form-item
+                :label="input.title"
+                :prop="input.id"
                 v-for="(input, key) in domList"
                 :key="key"
-                :id="input.id"
+                label-position="right"
+                :class="inputClass"
+                :label-width="labelWidth"
             >
-                <div class="lable" :class="lableClass">
-                    {{ input.title }}
-                </div>
-                <div class="input-box" :class="inputClass">
+                <div class="input-box" :id="input.id">
                     <div class="childen" />
                 </div>
-            </div>
-        </div>
+            </el-form-item>
+            <!-- <div class="form" id="form" :class="formClass">
+                <div
+                    class="item"
+                    :class="input.required ? 'required' : ''"
+                    v-for="(input, key) in domList"
+                    :key="key"
+                    :id="input.id"
+                >
+                    <div class="lable" :class="lableClass">
+                        {{ input.title }}
+                    </div>
+                    <div class="input-box" :class="inputClass">
+                        <div class="childen" />
+                    </div>
+                </div>
+            </div> -->
+        </el-form>
     </div>
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import draggable from "vuedraggable";
+import { Form, FormItem } from "element-ui";
 @Component({
     components: {
         draggable,
+        "el-form": Form,
+        "el-form-item": FormItem,
     },
 })
 export default class AutoForm extends Vue {
@@ -43,9 +61,17 @@ export default class AutoForm extends Vue {
         [key: string]: unknown;
     };
     @Prop({ type: String, default: "" }) public lableClass!: "";
+    @Prop({ type: String, default: "100px" }) public labelWidth!: "100px";
     @Prop({ type: String, default: "" }) public inputClass!: "";
     @Prop({ type: String, default: "" }) public formClass!: "";
 
+    public rules: {
+        [key: string]: Array<{
+            required: boolean;
+            message: string;
+            trigger: string;
+        }>;
+    } = {};
     public interfaceValue: {
         [key: string]: unknown;
     } = {};
@@ -76,6 +102,7 @@ export default class AutoForm extends Vue {
     initDomList() {
         const domList: typeof this.domList = {};
         const field = this.initData ? this.initData.field : [];
+        const rules = this.rules || {};
         field.forEach((item) => {
             domList[item.id] = {
                 id: item.id,
@@ -84,7 +111,19 @@ export default class AutoForm extends Vue {
                 required: item.required,
                 isFilter: item.isFilter,
             };
+            if (item.required) {
+                rules[item.id] = [
+                    {
+                        required: true,
+                        message: item.requiredMsg
+                            ? item.requiredMsg
+                            : "请输入" + item.title,
+                        trigger: "blur",
+                    },
+                ];
+            }
         });
+        this.rules = rules;
         this.domList = domList;
         Vue.nextTick().then(() => {
             this.initRender();
@@ -159,6 +198,14 @@ export default class AutoForm extends Vue {
         });
     }
     save() {
+        (this.$refs["form"] as Form).validate((valid) => {
+            if (valid) {
+                alert("submit!");
+            } else {
+                console.log("error submit!!");
+                return false;
+            }
+        });
         return this.interfaceValue;
     }
 }

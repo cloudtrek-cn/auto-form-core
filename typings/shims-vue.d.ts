@@ -117,6 +117,7 @@ declare namespace AutoForm {
         placeholder: string;
         isFilter: boolean;
         required: boolean;
+        requiredMsg?: string;
         props: {
             [key: string]: customizeAttr;
         };
