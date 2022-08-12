@@ -241,7 +241,6 @@ export default class AutoConstruct extends Vue {
     } = {};
     public activeElId = "";
     public selectComponent(e: AutoConstruct.elementItem, index: number) {
-        console.log(12341234);
         const element = this.elements[index];
         const isActive = element.isActive;
         this.elements = this.elements.map((item) => {
