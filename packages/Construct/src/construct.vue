@@ -5,11 +5,7 @@
         </div>
         <div class="main">
             <div class="left">
-                <div
-                    class="field-group"
-                    v-for="(group, i) in componentsList"
-                    :key="i"
-                >
+                <div class="field-group" v-for="(group, i) in componentsList" :key="i">
                     <div class="title">基础字段</div>
                     <draggable
                         class="components-list"
@@ -19,18 +15,10 @@
                         :group="{
                             name: 'form-group',
                             pull: 'clone',
-                            put: false,
-                        }"
-                    >
-                        <div
-                            class="list-item"
-                            v-for="(element, index) in group.list"
-                            :key="index"
-                        >
-                            <i
-                                v-if="element.icon"
-                                :class="`icon ${element.icon}`"
-                            ></i>
+                            put: false
+                        }">
+                        <div class="list-item" v-for="(element, index) in group.list" :key="index">
+                            <i v-if="element.icon" :class="`icon ${element.icon}`"></i>
                             {{ element.title }}
                         </div>
                     </draggable>
@@ -38,47 +26,27 @@
             </div>
             <div class="center">
                 <draggable
-                    class="element-list"
                     :list="elements"
+                    class="element-list"
                     ghostClass="ghost-item"
                     :group="{
                         name: 'form-group',
                         pull: false,
-                        put: true,
-                    }"
-                >
+                        put: true
+                    }">
                     <div
-                        :class="`element-item ${itemClass} ${
-                            element.isActive ? 'active' : ''
-                        }`"
+                        :class="`element-item ${itemClass} ${element.isActive ? 'active' : ''}`"
                         v-for="(element, index) in elements"
                         @click.self.stop="selectComponent(element, index)"
-                        :key="index"
-                    >
-                        <div
-                            class="title"
-                            :class="
-                                interfaceObj[element.id].required
-                                    ? 'required'
-                                    : ''
-                            "
-                        >
-                            {{
-                                interfaceObj[element.id].title || element.title
-                            }}
+                        :key="index">
+                        <div class="title" :class="interfaceObj[element.id].required ? 'required' : ''">
+                            {{ interfaceObj[element.id].title || element.title }}
                         </div>
-
                         <div class="element" :id="element.id">
                             <div class="childen"></div>
                         </div>
-                        <div
-                            :class="customizeClass"
-                            @click.stop.self="clickCustomize"
-                        >
-                            <slot
-                                name="customize"
-                                v-bind:element="element"
-                            ></slot>
+                        <div :class="customizeClass" @click.stop.self="clickCustomize">
+                            <slot name="customize" v-bind:element="element"></slot>
                         </div>
                     </div>
                 </draggable>
@@ -89,18 +57,12 @@
                     <div class="item">
                         <div class="name required">标题</div>
                         <div class="input-box">
-                            <el-input
-                                class="attribute-input"
-                                v-model="interfaceObj[activeElId].title"
-                            />
+                            <el-input class="attribute-input" v-model="interfaceObj[activeElId].title" />
                         </div>
                     </div>
                     <div class="item">
                         <div class="input-box">
-                            <el-checkbox
-                                v-model="interfaceObj[activeElId].isFilter"
-                                >设置为筛选项</el-checkbox
-                            >
+                            <el-checkbox v-model="interfaceObj[activeElId].isFilter">设置为筛选项</el-checkbox>
                         </div>
                     </div>
                     <div class="item">
@@ -109,34 +71,20 @@
                             <el-input
                                 class="attribute-input"
                                 @input="changePlaceholder(activeElId)"
-                                v-model="interfaceObj[activeElId].placeholder"
-                            />
+                                v-model="interfaceObj[activeElId].placeholder" />
                         </div>
                     </div>
                     <div class="item">
                         <div class="name">校验</div>
                         <div class="input-box">
-                            <el-checkbox
-                                v-model="interfaceObj[activeElId].required"
-                                >必填</el-checkbox
-                            >
+                            <el-checkbox v-model="interfaceObj[activeElId].required">必填</el-checkbox>
                         </div>
                     </div>
-                    <div
-                        class="item"
-                        v-for="(prop, index) in interfaceObj[activeElId].props"
-                        :key="index"
-                    >
-                        <div
-                            class="name"
-                            :class="prop.required ? 'required' : ''"
-                        >
+                    <div class="item" v-for="(prop, index) in interfaceObj[activeElId].props" :key="index">
+                        <div class="name" :class="prop.required ? 'required' : ''">
                             {{ prop.name }}
                         </div>
-                        <div
-                            class="input-box"
-                            :id="`${activeElId}_prop_${index}`"
-                        >
+                        <div class="input-box" :id="`${activeElId}_prop_${index}`">
                             <div class="childen"></div>
                         </div>
                     </div>
@@ -155,8 +103,8 @@ import { Input, Checkbox, Switch, Select, RadioGroup } from "element-ui";
     components: {
         draggable,
         "el-input": Input,
-        "el-checkbox": Checkbox,
-    },
+        "el-checkbox": Checkbox
+    }
 })
 export default class AutoConstruct extends Vue {
     @Prop({ type: Array, default: null })
@@ -192,10 +140,8 @@ export default class AutoConstruct extends Vue {
             const elTemplateName = item.elTemplateName;
             if (this.componentsListObj[elTemplateName]) {
                 let el = this.cloneElement({
-                    ...JSON.parse(
-                        JSON.stringify(this.componentsListObj[elTemplateName])
-                    ),
-                    id,
+                    ...JSON.parse(JSON.stringify(this.componentsListObj[elTemplateName])),
+                    id
                 });
                 el.placeholder = placeholder;
                 el.props = props;
@@ -222,7 +168,7 @@ export default class AutoConstruct extends Vue {
             list.list.forEach((item) => {
                 this.componentsListObj = {
                     ...this.componentsListObj,
-                    [item.name]: item,
+                    [item.name]: item
                 };
             });
         });
@@ -285,15 +231,15 @@ export default class AutoConstruct extends Vue {
             isFilter: e.isFilter ? e.isFilter : false,
             required: e.required ? e.required : false,
             props: e.props,
-            elTemplateName: e.name,
+            elTemplateName: e.name
         };
         this.interfaceObj = {
             ...this.interfaceObj,
-            [id]: attr,
+            [id]: attr
         };
         return {
             ...e,
-            id,
+            id
         };
     }
     @Watch("elements")
@@ -308,9 +254,7 @@ export default class AutoConstruct extends Vue {
     // 根据自定义属性的更新重新渲染组件
     private uploadInterfaceObj(id: string) {
         const elTemplateName = this.interfaceObj[id].elTemplateName;
-        let el = JSON.parse(
-            JSON.stringify(this.componentsListObj[elTemplateName])
-        );
+        let el = JSON.parse(JSON.stringify(this.componentsListObj[elTemplateName]));
         if (!el) {
             return;
         }
@@ -324,10 +268,9 @@ export default class AutoConstruct extends Vue {
         if (!document.getElementById(id)) {
             return;
         }
-        const render: AutoConstruct.AnyObj =
-            this.componentsLibrary[el.components];
+        const render: AutoConstruct.AnyObj = this.componentsLibrary[el.components];
         let props = {
-            ...(el.defaultProps ? el.defaultProps : {}),
+            ...(el.defaultProps ? el.defaultProps : {})
         };
         for (const key in el.props) {
             props[key] = el.props[key].value;
@@ -336,9 +279,8 @@ export default class AutoConstruct extends Vue {
         domRender(id, render, {
             props,
             attrs: {
-                placeholder:
-                    this.interfaceObj[id].placeholder || el.placeholder,
-            },
+                placeholder: this.interfaceObj[id].placeholder || el.placeholder
+            }
         });
         // 渲染自定义属性
     }
@@ -349,7 +291,7 @@ export default class AutoConstruct extends Vue {
         select: Select,
         switch: Switch,
         checkbox: Checkbox,
-        radio: RadioGroup,
+        radio: RadioGroup
     };
     private setProp(id: string) {
         const props = this.interfaceObj[id].props;
@@ -370,12 +312,7 @@ export default class AutoConstruct extends Vue {
     public changePlaceholder(id: string) {
         this.uploadInterfaceObj(id);
     }
-    private setPropRender(
-        id: string,
-        render: AutoConstruct.AnyObj,
-        propKey: string,
-        children?: Vue.VNodeChildren
-    ) {
+    private setPropRender(id: string, render: AutoConstruct.AnyObj, propKey: string, children?: Vue.VNodeChildren) {
         console.log(id, propKey);
         const self = this;
         const item = self.interfaceObj[id].props[propKey];
@@ -390,8 +327,8 @@ export default class AutoConstruct extends Vue {
                     "div",
                     {
                         attrs: {
-                            class: "childen",
-                        },
+                            class: "childen"
+                        }
                     },
                     [
                         h(
@@ -400,23 +337,21 @@ export default class AutoConstruct extends Vue {
                                 attrs,
                                 props: {
                                     ...props,
-                                    value: item.value,
+                                    value: item.value
                                 },
                                 on: {
                                     input: function (event: string) {
                                         that.$emit("input", "that", event);
-                                        self.interfaceObj[id].props[
-                                            propKey
-                                        ].value = event;
+                                        self.interfaceObj[id].props[propKey].value = event;
                                         self.uploadInterfaceObj(id);
-                                    },
-                                },
+                                    }
+                                }
                             },
                             children
-                        ),
+                        )
                     ]
                 );
-            },
+            }
         });
         new Profile().$mount(`#${id}_prop_${propKey} .childen`);
     }
@@ -426,12 +361,12 @@ export default class AutoConstruct extends Vue {
             field: AutoConstruct.elAttribute[];
         } = {
             title: this.title,
-            field: [],
+            field: []
         };
         this.elements.forEach((element) => {
             data.field.push({
                 ...this.interfaceObj[element.id],
-                id: element.id,
+                id: element.id
             });
         });
         return data;

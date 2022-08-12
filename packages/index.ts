@@ -16,5 +16,5 @@ export default {
     install,
     Form,
     Construct,
-    Table,
+    Table
 };

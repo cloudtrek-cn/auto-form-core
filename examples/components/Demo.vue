@@ -8,7 +8,7 @@
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 @Component({
-    components: {},
+    components: {}
 })
 export default class Form extends Vue {
     @Prop({ type: String, default: "" })

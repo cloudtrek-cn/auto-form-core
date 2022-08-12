@@ -7,8 +7,7 @@
             :initData="initData"
             :value="value"
             :components-list="componentsList"
-            :components-library="componentsLibrary"
-        ></auto-form>
+            :components-library="componentsLibrary"></auto-form>
         <el-button @click="save">保存</el-button>
     </div>
 </template>
@@ -22,15 +21,15 @@ import AutoForm from "~/index";
 @Component({
     components: {
         "el-input": element.Input,
-        "el-button": element.Button,
-    },
+        "el-button": element.Button
+    }
 })
 export default class Construct extends Vue {
     public title = "title";
     public demo = "aaa";
     public show = false;
     public componentsLibrary = {
-        ...element,
+        ...element
     };
     public componentsList = [
         {
@@ -44,29 +43,29 @@ export default class Construct extends Vue {
                     components: "Input",
                     placeholder: "请输入",
                     defaultProps: {
-                        clearable: true,
+                        clearable: true
                     },
                     props: {
                         value: {
                             type: "input",
                             name: "默认内容",
                             value: "",
-                            required: true,
+                            required: true
                         },
                         disabled: {
                             type: "switch",
                             name: "是否禁用",
                             value: false,
-                            required: true,
+                            required: true
                         },
                         render: {
                             type: "render",
                             name: "自定义组件",
                             render: "Input",
                             value: "value",
-                            required: true,
-                        },
-                    },
+                            required: true
+                        }
+                    }
                 },
                 {
                     icon: "iconfont icon-ic_text",
@@ -75,46 +74,46 @@ export default class Construct extends Vue {
                     source: "internal",
                     components: "Input",
                     defaultProps: {
-                        clearable: true,
+                        clearable: true
                     },
                     props: {
                         value: {
                             type: "input",
                             name: "默认内容",
                             value: "",
-                            required: true,
+                            required: true
                         },
                         disabled: {
                             type: "switch",
                             name: "是否禁用",
                             value: false,
-                            required: true,
-                        },
-                    },
+                            required: true
+                        }
+                    }
                 },
                 {
                     icon: "iconfont icon-ic_text",
                     title: "数字",
                     name: "number",
                     source: "internal",
-                    components: "Input",
+                    components: "Input"
                 },
                 {
                     icon: "iconfont icon-ic_text",
                     title: "日期",
                     name: "date",
                     source: "internal",
-                    components: "Input",
+                    components: "Input"
                 },
                 {
                     icon: "iconfont icon-ic_text",
                     title: "活动",
                     name: "活动",
                     source: "internal",
-                    components: "Input",
-                },
-            ],
-        },
+                    components: "Input"
+                }
+            ]
+        }
     ];
     public initData = {
         title: "title",
@@ -130,23 +129,23 @@ export default class Construct extends Vue {
                         type: "input",
                         name: "默认内容",
                         value: "阿斯蒂芬",
-                        required: true,
+                        required: true
                     },
                     disabled: {
                         type: "switch",
                         name: "是否禁用",
                         value: false,
-                        required: true,
-                    },
+                        required: true
+                    }
                 },
-                elTemplateName: "text",
+                elTemplateName: "text"
             },
             {
                 id: "el-0b6fb673-91c2-4990-8b3f-8870c4ca86b2",
                 title: "日期",
                 isFilter: false,
                 required: false,
-                elTemplateName: "date",
+                elTemplateName: "date"
             },
             {
                 id: "el-abcbdc54-e3e5-4201-ac08-6cabf12c043c",
@@ -159,25 +158,25 @@ export default class Construct extends Vue {
                         type: "input",
                         name: "默认内容",
                         value: "",
-                        required: true,
+                        required: true
                     },
                     disabled: {
                         type: "switch",
                         name: "是否禁用",
                         value: false,
-                        required: true,
+                        required: true
                     },
                     render: {
                         type: "render",
                         name: "自定义组件",
                         render: "Input",
                         value: "value",
-                        required: true,
-                    },
+                        required: true
+                    }
                 },
-                elTemplateName: "店号/门店",
-            },
-        ],
+                elTemplateName: "店号/门店"
+            }
+        ]
     };
     created() {
         this.show = true;
@@ -189,16 +188,14 @@ export default class Construct extends Vue {
         // "el-abcbdc54-e3e5-4201-ac08-6cabf12c043c": null,
     };
     public async save() {
-        const data = await (
-            this.$refs["autoForm"] as typeof AutoForm.Form.prototype
-        ).save();
+        const data = await (this.$refs["autoForm"] as typeof AutoForm.Form.prototype).save();
         console.log(data);
     }
     public async importData() {
         // this.initData()
         const val = await element.MessageBox.prompt("请输入配置", "提示", {
             confirmButtonText: "确定",
-            cancelButtonText: "取消",
+            cancelButtonText: "取消"
         }).catch(() => {
             return null;
         });

@@ -8,26 +8,24 @@ const routes: Array<RouteConfig> = [
     {
         path: "/",
         name: "construct",
-        component: Construct,
+        component: Construct
     },
     {
         path: "/table",
         name: "table",
-        component: () =>
-            import(/* webpackChunkName: "Table" */ "../views/Table.vue"),
+        component: () => import(/* webpackChunkName: "Table" */ "../views/Table.vue")
     },
     {
         path: "/form",
         name: "form",
-        component: () =>
-            import(/* webpackChunkName: "Form" */ "../views/Form.vue"),
-    },
+        component: () => import(/* webpackChunkName: "Form" */ "../views/Form.vue")
+    }
 ];
 
 const router = new VueRouter({
     mode: "history",
     base: process.env.BASE_URL,
-    routes,
+    routes
 });
 
 export default router;

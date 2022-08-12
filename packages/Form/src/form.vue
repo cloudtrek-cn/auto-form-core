@@ -8,8 +8,7 @@
                 :key="key"
                 label-position="right"
                 :class="inputClass"
-                :label-width="labelWidth"
-            >
+                :label-width="labelWidth">
                 <div class="input-box" :id="input.id">
                     <div class="childen" />
                 </div>
@@ -41,8 +40,8 @@ import { Form, FormItem } from "element-ui";
     components: {
         draggable,
         "el-form": Form,
-        "el-form-item": FormItem,
-    },
+        "el-form-item": FormItem
+    }
 })
 export default class AutoForm extends Vue {
     @Prop({ type: Array, default: null })
@@ -97,9 +96,7 @@ export default class AutoForm extends Vue {
             if (item.props && item.props.value && item.props.value.value) {
                 defaultValue = item.props.value.value;
             }
-            this.interfaceValue[item.id] = value[item.id]
-                ? value[item.id]
-                : defaultValue;
+            this.interfaceValue[item.id] = value[item.id] ? value[item.id] : defaultValue;
         });
     }
     initDomList() {
@@ -112,17 +109,15 @@ export default class AutoForm extends Vue {
                 placeholder: item.placeholder,
                 title: item.title,
                 required: item.required,
-                isFilter: item.isFilter,
+                isFilter: item.isFilter
             };
             if (item.required) {
                 rules[item.id] = [
                     {
                         required: true,
-                        message: item.requiredMsg
-                            ? item.requiredMsg
-                            : "请输入" + item.title,
-                        trigger: "blur",
-                    },
+                        message: item.requiredMsg ? item.requiredMsg : "请输入" + item.title,
+                        trigger: "blur"
+                    }
                 ];
             }
         });
@@ -140,7 +135,7 @@ export default class AutoForm extends Vue {
             list.list.forEach((item) => {
                 this.componentsListObj = {
                     ...this.componentsListObj,
-                    [item.name]: item,
+                    [item.name]: item
                 };
             });
         });
@@ -152,8 +147,7 @@ export default class AutoForm extends Vue {
             const id = item.id;
             const elTemplateName = item.elTemplateName;
             const elTemplate = this.componentsListObj[elTemplateName];
-            const render: AutoForm.AnyObj =
-                this.componentsLibrary[elTemplate.components];
+            const render: AutoForm.AnyObj = this.componentsLibrary[elTemplate.components];
             if (!render) {
                 return;
             }
@@ -181,31 +175,31 @@ export default class AutoForm extends Vue {
                         "div",
                         {
                             attrs: {
-                                class: "childen",
-                            },
+                                class: "childen"
+                            }
                         },
                         [
                             h(render, {
                                 props: {
                                     ...props,
-                                    value: self.interfaceValue[id],
+                                    value: self.interfaceValue[id]
                                 },
                                 attrs: {
-                                    ...attrs,
+                                    ...attrs
                                 },
                                 on: {
                                     input: function (event: string) {
                                         that.$emit("input", "that", event);
                                         self.interfaceValue = {
                                             ...self.interfaceValue,
-                                            [id]: event,
+                                            [id]: event
                                         };
-                                    },
-                                },
-                            }),
+                                    }
+                                }
+                            })
                         ]
                     );
-                },
+                }
             });
             new Profile().$mount(`#${id} .childen`);
         });

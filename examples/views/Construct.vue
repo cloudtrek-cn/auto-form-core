@@ -6,8 +6,7 @@
             :initData="initData"
             :components-library="componentsLibrary"
             itemClass="item-class"
-            :title="title"
-        >
+            :title="title">
             <div class="navbar" slot="navbar">
                 <div class="back">返回</div>
                 <div class="title">
@@ -18,13 +17,7 @@
                 </div>
             </div>
             <template v-slot:customize="el">
-                <div
-                    class="customize"
-                    :id="el.element.id"
-                    @click="delItem(el.element.id)"
-                >
-                    del
-                </div>
+                <div class="customize" :id="el.element.id" @click="delItem(el.element.id)">del</div>
             </template>
         </auto-construct>
     </div>
@@ -38,8 +31,8 @@ import Demo from "@/components/Demo.vue";
 
 @Component({
     components: {
-        "ct-demo": Demo,
-    },
+        "ct-demo": Demo
+    }
 })
 export default class Construct extends Vue {
     public title = "title";
@@ -47,7 +40,7 @@ export default class Construct extends Vue {
     public visible = false;
     public componentsLibrary = {
         ...element,
-        "ct-demo": Demo,
+        "ct-demo": Demo
     };
     public componentsList = [
         {
@@ -62,14 +55,14 @@ export default class Construct extends Vue {
                     placeholder: "请输入",
                     maximum: 4,
                     defaultProps: {
-                        clearable: true,
+                        clearable: true
                     },
                     props: {
                         value: {
                             type: "input",
                             name: "默认内容",
                             value: "",
-                            required: true,
+                            required: true
                         },
                         maxlength: {
                             type: "input",
@@ -77,7 +70,7 @@ export default class Construct extends Vue {
                             props: {},
                             value: "",
                             isAttr: true,
-                            required: true,
+                            required: true
                         },
                         test: {
                             type: "input",
@@ -87,22 +80,22 @@ export default class Construct extends Vue {
                             props: {},
                             attrs: {
                                 class: "test-attr",
-                                id: "test-attr-id",
-                            },
+                                id: "test-attr-id"
+                            }
                         },
                         disabled: {
                             type: "switch",
                             name: "是否禁用",
                             value: false,
-                            required: true,
+                            required: true
                         },
                         render: {
                             type: "render",
                             name: "自定义组件",
                             render: "Input",
                             value: "value",
-                            required: true,
-                        },
+                            required: true
+                        }
                         // disabled: {
                         //     type: "render",
                         //     name: "Demo组件",
@@ -110,7 +103,7 @@ export default class Construct extends Vue {
                         //     value: 100,
                         //     required: true,
                         // },
-                    },
+                    }
                 },
                 {
                     icon: "iconfont icon-ic_text",
@@ -119,46 +112,46 @@ export default class Construct extends Vue {
                     source: "internal",
                     components: "Input",
                     defaultProps: {
-                        clearable: true,
+                        clearable: true
                     },
                     props: {
                         value: {
                             type: "input",
                             name: "默认内容",
                             value: "",
-                            required: true,
+                            required: true
                         },
                         disabled: {
                             type: "switch",
                             name: "是否禁用",
                             value: false,
-                            required: true,
-                        },
-                    },
+                            required: true
+                        }
+                    }
                 },
                 {
                     icon: "iconfont icon-ic_text",
                     title: "数字",
                     name: "number",
                     source: "internal",
-                    components: "Input",
+                    components: "Input"
                 },
                 {
                     icon: "iconfont icon-ic_text",
                     title: "日期",
                     name: "date",
                     source: "internal",
-                    components: "Input",
+                    components: "Input"
                 },
                 {
                     icon: "iconfont icon-ic_text",
                     title: "活动",
                     name: "活动",
                     source: "internal",
-                    components: "Input",
-                },
-            ],
-        },
+                    components: "Input"
+                }
+            ]
+        }
     ];
     public initData = {
         title: "title",
@@ -174,23 +167,23 @@ export default class Construct extends Vue {
                         type: "input",
                         name: "默认内容",
                         value: "阿斯蒂芬",
-                        required: true,
+                        required: true
                     },
                     disabled: {
                         type: "switch",
                         name: "是否禁用",
                         value: false,
-                        required: true,
-                    },
+                        required: true
+                    }
                 },
-                elTemplateName: "text",
+                elTemplateName: "text"
             },
             {
                 id: "el-0b6fb673-91c2-4990-8b3f-8870c4ca86b2",
                 title: "日期",
                 isFilter: false,
                 required: false,
-                elTemplateName: "date",
+                elTemplateName: "date"
             },
             {
                 id: "el-abcbdc54-e3e5-4201-ac08-6cabf12c043c",
@@ -203,38 +196,34 @@ export default class Construct extends Vue {
                         type: "input",
                         name: "默认内容",
                         value: "",
-                        required: true,
+                        required: true
                     },
                     disabled: {
                         type: "switch",
                         name: "是否禁用",
                         value: false,
-                        required: true,
+                        required: true
                     },
                     render: {
                         type: "render",
                         name: "自定义组件",
                         render: "Input",
                         value: "value",
-                        required: true,
-                    },
+                        required: true
+                    }
                 },
-                elTemplateName: "店号/门店",
-            },
-        ],
+                elTemplateName: "店号/门店"
+            }
+        ]
     };
     save() {
-        const data = (
-            this.$refs["autoConstruct"] as typeof AutoForm.Construct.prototype
-        ).save();
+        const data = (this.$refs["autoConstruct"] as typeof AutoForm.Construct.prototype).save();
         element.MessageBox.alert(JSON.stringify(data, null, 4), {
-            confirmButtonText: "确定",
+            confirmButtonText: "确定"
         });
     }
     delItem(id: string) {
-        const ref = this.$refs[
-            "autoConstruct"
-        ] as typeof AutoForm.Construct.prototype;
+        const ref = this.$refs["autoConstruct"] as typeof AutoForm.Construct.prototype;
         ref.delItem(id);
     }
 }
