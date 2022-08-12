@@ -13,22 +13,6 @@
                     <div class="childen" />
                 </div>
             </el-form-item>
-            <!-- <div class="form" id="form" :class="formClass">
-                <div
-                    class="item"
-                    :class="input.required ? 'required' : ''"
-                    v-for="(input, key) in domList"
-                    :key="key"
-                    :id="input.id"
-                >
-                    <div class="lable" :class="lableClass">
-                        {{ input.title }}
-                    </div>
-                    <div class="input-box" :class="inputClass">
-                        <div class="childen" />
-                    </div>
-                </div>
-            </div> -->
         </el-form>
     </div>
 </template>
@@ -148,21 +132,24 @@ export default class AutoForm extends Vue {
             const elTemplateName = item.elTemplateName;
             const elTemplate = this.componentsListObj[elTemplateName];
             const render: AutoForm.AnyObj = this.componentsLibrary[elTemplate.components];
+            const placeholder = item.placeholder;
             if (!render) {
                 return;
             }
             const attrs: {
                 [key: string]: unknown;
-            } = {};
+            } = placeholder ? { placeholder } : {};
             const props: {
                 [key: string]: unknown;
             } = {};
-            for (const key in item.props) {
-                if (item.props[key].isAttr) {
-                    attrs[key] = item.props[key].value;
-                }
-                if (key != "value") {
-                    props[key] = item.props[key].value;
+            if (item.props) {
+                for (const key in item.props) {
+                    if (item.props[key].isAttr) {
+                        attrs[key] = item.props[key].value;
+                    }
+                    if (key != "value") {
+                        props[key] = item.props[key].value;
+                    }
                 }
             }
 
@@ -219,7 +206,6 @@ export default class AutoForm extends Vue {
 </script>
 <style lang="scss" scoped>
 .container {
-    //   asdf
     .form {
         .item {
             display: flex;
