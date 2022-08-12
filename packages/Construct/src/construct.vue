@@ -197,6 +197,7 @@ export default class AutoConstruct extends Vue {
                 this.setProp(element.id);
             });
         }
+        this.$emit("click-item", element.id);
     }
     // 判断当前组件是否可以拖动
     public onMove(e: AutoConstruct.draggableObj) {
