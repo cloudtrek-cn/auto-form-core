@@ -4,6 +4,7 @@
             ref="autoConstruct"
             :components-list="componentsList"
             :initData="initData"
+            @click-item="clickItem"
             :components-library="componentsLibrary"
             itemClass="item-class"
             :title="title">
@@ -229,6 +230,9 @@ export default class Construct extends Vue {
     delItem(id: string) {
         const ref = this.$refs["autoConstruct"] as typeof AutoForm.Construct.prototype;
         ref.delItem(id);
+    }
+    clickItem(id: string) {
+        console.log(111, id);
     }
 }
 </script>

@@ -305,7 +305,6 @@ export default class AutoConstruct extends Vue {
         this.uploadInterfaceObj(id);
     }
     private setPropRender(id: string, render: AutoConstruct.AnyObj, propKey: string, children?: Vue.VNodeChildren) {
-        console.log(id, propKey);
         const self = this;
         const item = self.interfaceObj[id].props[propKey];
         const attrs = item.attrs || {};
