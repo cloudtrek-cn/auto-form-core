@@ -112,12 +112,9 @@ export default class AutoConstruct extends Vue {
         title: string;
         list: AutoConstruct.elementItem[];
     }>;
-    @Prop({ type: String, default: "未命名" })
-    public title!: string;
-    @Prop({ type: String, default: "" })
-    public customizeClass!: string;
-    @Prop({ type: String, default: "" })
-    public itemClass!: string;
+    @Prop({ type: String, default: "未命名" }) public title!: string;
+    @Prop({ type: String, default: "" }) public customizeClass!: string;
+    @Prop({ type: String, default: "" }) public itemClass!: string;
     @Prop({ type: Object, default: null }) public componentsLibrary!: {
         [key: string]: Vue.VNode;
     };
