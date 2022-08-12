@@ -18,6 +18,9 @@ declare namespace AutoConstruct {
         to: {
             className: string;
         };
+        draggedContext: {
+            element: elAttribute;
+        };
     }
 
     interface elementItem {
@@ -65,6 +68,7 @@ declare namespace AutoConstruct {
         placeholder: string;
         isFilter: boolean;
         required: boolean;
+        maximum?: number;
         props: {
             [key: string]: customizeAttr;
         };

@@ -93,7 +93,7 @@ export default class AutoForm extends Vue {
         const field = this.initData ? this.initData.field : [];
         const value = this.value || null;
         field.forEach((item) => {
-            const defaultValue = item.props?.value.value || null;
+            const defaultValue = item.props.value.value || null;
             this.interfaceValue[item.id] = value[item.id]
                 ? value[item.id]
                 : defaultValue;
@@ -163,9 +163,6 @@ export default class AutoForm extends Vue {
             for (const key in item.props) {
                 if (item.props[key].isAttr) {
                     attrs[key] = item.props[key].value;
-                }
-                if (key === "value") {
-                    console.log(12341, item.props[key].value);
                 }
                 if (key != "value") {
                     props[key] = item.props[key].value;

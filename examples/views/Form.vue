@@ -210,22 +210,9 @@ export default class Construct extends Vue {
         };
         this.show = false;
         this.initData = JSON.parse(value);
-        console.log(this.initData);
         setTimeout(() => {
             this.show = true;
         }, 0);
-        // .then(({ value }) => {
-        //     this.$message({
-        //         type: "success",
-        //         message: "你的邮箱是: " + value,
-        //     });
-        // })
-        // .catch(() => {
-        //     this.$message({
-        //         type: "info",
-        //         message: "取消输入",
-        //     });
-        // });
     }
 }
 </script>

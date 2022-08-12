@@ -1,19 +1,16 @@
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-// const AutoForm = require("../lib/index.umd.min.js");
-// import AutoForm from "../lib/index.umd.min.js";
-// import "../lib/index.css";
-
+import Element from "element-ui";
 import AutoForm from "~/index";
+import "element-ui/lib/theme-chalk/index.css";
 
 import "@/styles/index.scss";
 
-console.log(AutoForm);
-
 Vue.config.productionTip = false;
 Vue.use(AutoForm);
+Vue.use(Element, { size: "small", zIndex: 3000 });
+
 new Vue({
     router,
     render: (h) => h(App),

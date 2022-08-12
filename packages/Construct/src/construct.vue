@@ -48,16 +48,13 @@
                     }"
                 >
                     <div
-                        :class="`element-item ${
+                        :class="`element-item ${itemClass} ${
                             element.isActive ? 'active' : ''
                         }`"
                         v-for="(element, index) in elements"
+                        @click.self.stop="selectComponent(element, index)"
                         :key="index"
-                        @click.self="selectComponent(element, index)"
                     >
-                        <div class="del-btn" @click="del(element, index)">
-                            <slot name="del-icon"></slot>
-                        </div>
                         <div
                             class="title"
                             :class="
@@ -66,11 +63,22 @@
                                     : ''
                             "
                         >
-                            {{ interfaceObj[element.id].title || element.title
-                            }}{{ element.id }}
+                            {{
+                                interfaceObj[element.id].title || element.title
+                            }}
                         </div>
+
                         <div class="element" :id="element.id">
                             <div class="childen"></div>
+                        </div>
+                        <div
+                            :class="customizeClass"
+                            @click.stop.self="clickCustomize"
+                        >
+                            <slot
+                                name="customize"
+                                v-bind:element="element"
+                            ></slot>
                         </div>
                     </div>
                 </draggable>
@@ -158,6 +166,10 @@ export default class AutoConstruct extends Vue {
     }>;
     @Prop({ type: String, default: "未命名" })
     public title!: string;
+    @Prop({ type: String, default: "" })
+    public customizeClass!: string;
+    @Prop({ type: String, default: "" })
+    public itemClass!: string;
     @Prop({ type: Object, default: null }) public componentsLibrary!: {
         [key: string]: Vue.VNode;
     };
@@ -165,9 +177,6 @@ export default class AutoConstruct extends Vue {
         title: string;
         field: AutoConstruct.elAttribute[];
     };
-    @Prop({ type: Function, default: null }) public asyncDel!:
-        | null
-        | ((id: string) => boolean);
     mounted() {
         this.setComponentsListObj();
         this.setValue();
@@ -232,6 +241,7 @@ export default class AutoConstruct extends Vue {
     } = {};
     public activeElId = "";
     public selectComponent(e: AutoConstruct.elementItem, index: number) {
+        console.log(12341234);
         const element = this.elements[index];
         const isActive = element.isActive;
         this.elements = this.elements.map((item) => {
@@ -248,7 +258,23 @@ export default class AutoConstruct extends Vue {
     }
     // 判断当前组件是否可以拖动
     public onMove(e: AutoConstruct.draggableObj) {
-        return e.to.className != "components-list";
+        if (e.to.className == "components-list") {
+            return false;
+        }
+        if (e.draggedContext.element.maximum) {
+            const maximum = e.draggedContext.element.maximum || 0;
+            let elNum = 0;
+            for (const index in this.elements) {
+                if (this.elements[index].id == e.draggedContext.element.id) {
+                    continue;
+                }
+                elNum++;
+            }
+            if (elNum >= maximum) {
+                return false;
+            }
+        }
+        return true;
     }
     // 复制组件, 增加组件id，增加属性
     public cloneElement(e: AutoConstruct.elementItem) {
@@ -351,9 +377,11 @@ export default class AutoConstruct extends Vue {
         propKey: string,
         children?: Vue.VNodeChildren
     ) {
+        console.log(id, propKey);
         const self = this;
-        const attrs = self.interfaceObj[id].props[propKey].attrs || {};
-        const props = self.interfaceObj[id].props[propKey].props || {};
+        const item = self.interfaceObj[id].props[propKey];
+        const attrs = item.attrs || {};
+        const props = item.props || {};
         const Profile = Vue.extend({
             name: "FormRender",
             functional: true,
@@ -373,8 +401,7 @@ export default class AutoConstruct extends Vue {
                                 attrs,
                                 props: {
                                     ...props,
-                                    value: self.interfaceObj[id].props[propKey]
-                                        .value,
+                                    value: item.value,
                                 },
                                 on: {
                                     input: function (event: string) {
@@ -410,13 +437,27 @@ export default class AutoConstruct extends Vue {
         });
         return data;
     }
-    public async del(e: AutoConstruct.elementItem, index: number) {
-        const status = this.asyncDel ? await this.asyncDel(e.id) : true;
-        if (!status) {
+    public async delItem(id: string) {
+        let index = -1;
+        this.elements.map((element, i) => {
+            if (element.id === id) {
+                index = i;
+            }
+        });
+        if (index < 0) {
             return;
         }
-        this.elements.splice(index, 1);
-        delete this.interfaceObj[e.id];
+        const e = this.elements[index];
+        if (e.isActive) {
+            this.selectComponent(e, index);
+        }
+        Vue.nextTick().then(() => {
+            this.elements.splice(index, 1);
+            delete this.interfaceObj[e.id];
+        });
+    }
+    public clickCustomize() {
+        //
     }
 }
 </script>
@@ -514,38 +555,8 @@ export default class AutoConstruct extends Vue {
                     padding: 10px 12px;
                     cursor: move;
                     position: relative;
-                    .del-btn {
-                        display: none;
-                        position: absolute;
-                        // display: inline-block;
-                        width: 24px;
-                        height: 24px;
-                        background: #ffffff;
-                        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.15);
-                        border-radius: 4px;
-                        top: 0;
-                        right: 0;
-                        z-index: 999;
-                        cursor: pointer;
-                    }
                     &.active {
                         background: #f5f9ff;
-                    }
-                    &:hover {
-                        background: #f5f9ff;
-                        .del-btn {
-                            position: absolute;
-                            display: inline-block;
-                            width: 24px;
-                            height: 24px;
-                            background: #ffffff;
-                            box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.15);
-                            border-radius: 4px;
-                            top: 0;
-                            right: 0;
-                            z-index: 9999;
-                            cursor: pointer;
-                        }
                     }
                     &::before {
                         content: "";

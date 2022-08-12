@@ -5,7 +5,7 @@
             :components-list="componentsList"
             :initData="initData"
             :components-library="componentsLibrary"
-            :async-del="asyncDel"
+            itemClass="item-class"
             :title="title"
         >
             <div class="navbar" slot="navbar">
@@ -17,7 +17,15 @@
                     <el-button @click="save">保存</el-button>
                 </div>
             </div>
-            <div slot="del-icon">del</div>
+            <template v-slot:customize="el">
+                <div
+                    class="customize"
+                    :id="el.element.id"
+                    @click="delItem(el.element.id)"
+                >
+                    del
+                </div>
+            </template>
         </auto-construct>
     </div>
 </template>
@@ -25,20 +33,18 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import * as element from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
 import AutoForm from "~/index";
 import Demo from "@/components/Demo.vue";
 
 @Component({
     components: {
-        "el-input": element.Input,
-        "el-button": element.Button,
         "ct-demo": Demo,
     },
 })
 export default class Construct extends Vue {
     public title = "title";
     public demo = "aaa";
+    public visible = false;
     public componentsLibrary = {
         ...element,
         "ct-demo": Demo,
@@ -54,6 +60,7 @@ export default class Construct extends Vue {
                     name: "店号/门店",
                     components: "Input",
                     placeholder: "请输入",
+                    maximum: 4,
                     defaultProps: {
                         clearable: true,
                     },
@@ -222,21 +229,13 @@ export default class Construct extends Vue {
         ).save();
         element.MessageBox.alert(JSON.stringify(data, null, 4), {
             confirmButtonText: "确定",
-            callback: (action) => {
-                this.$message({
-                    type: "info",
-                    message: `action: ${action}`,
-                });
-            },
         });
     }
-    asyncDel() {
-        return new Promise((resolve) => {
-            alert("3秒钟后删除");
-            setTimeout(() => {
-                resolve(true);
-            }, 3000);
-        });
+    delItem(id: string) {
+        const ref = this.$refs[
+            "autoConstruct"
+        ] as typeof AutoForm.Construct.prototype;
+        ref.delItem(id);
     }
 }
 </script>
@@ -250,5 +249,20 @@ export default class Construct extends Vue {
         display: flex;
         justify-content: space-between;
     }
+}
+</style>
+<style lang="scss">
+.customize {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 20px;
+    right: 10px;
+    background: #fff;
+    border-radius: 10px;
+    z-index: 999;
+    border: 1px solid #000;
+    line-height: 30px;
+    text-align: center;
 }
 </style>
