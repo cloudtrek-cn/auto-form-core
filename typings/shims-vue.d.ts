@@ -69,6 +69,7 @@ declare namespace AutoConstruct {
         isFilter: boolean;
         required: boolean;
         maximum?: number;
+        name?: string;
         props: {
             [key: string]: customizeAttr;
         };

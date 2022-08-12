@@ -53,7 +53,7 @@ export default class Construct extends Vue {
                     name: "店号/门店",
                     components: "Input",
                     placeholder: "请输入",
-                    maximum: 4,
+                    maximum: 5,
                     defaultProps: {
                         clearable: true
                     },
@@ -109,6 +109,7 @@ export default class Construct extends Vue {
                     icon: "iconfont icon-ic_text",
                     title: "文本",
                     name: "text",
+                    maximum: 3,
                     source: "internal",
                     components: "Input",
                     defaultProps: {
@@ -133,6 +134,7 @@ export default class Construct extends Vue {
                     icon: "iconfont icon-ic_text",
                     title: "数字",
                     name: "number",
+                    maximum: 4,
                     source: "internal",
                     components: "Input"
                 },
@@ -140,6 +142,7 @@ export default class Construct extends Vue {
                     icon: "iconfont icon-ic_text",
                     title: "日期",
                     name: "date",
+                    maximum: 4,
                     source: "internal",
                     components: "Input"
                 },
@@ -147,6 +150,7 @@ export default class Construct extends Vue {
                     icon: "iconfont icon-ic_text",
                     title: "活动",
                     name: "活动",
+                    maximum: 5,
                     source: "internal",
                     components: "Input"
                 }

@@ -203,18 +203,12 @@ export default class AutoConstruct extends Vue {
         if (e.to.className == "components-list") {
             return false;
         }
-        if (e.draggedContext.element.maximum) {
-            const maximum = e.draggedContext.element.maximum || 0;
-            let elNum = 0;
-            for (const index in this.elements) {
-                if (this.elements[index].id == e.draggedContext.element.id) {
-                    continue;
-                }
-                elNum++;
-            }
-            if (elNum >= maximum) {
-                return false;
-            }
+        const copyEl = e.draggedContext.element;
+        const elName = copyEl.name;
+        const maximum = copyEl.maximum || 0;
+        const elNum = this.elements.filter((item) => item.name == elName).length;
+        if (elNum >= maximum) {
+            return false;
         }
         return true;
     }
