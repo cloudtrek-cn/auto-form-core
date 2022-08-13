@@ -32,7 +32,9 @@ import Demo from "@/components/Demo.vue";
 
 @Component({
     components: {
-        "ct-demo": Demo
+        "ct-demo": Demo,
+        "el-input": element.Input,
+        "el-button": element.Button
     }
 })
 export default class Construct extends Vue {
@@ -232,7 +234,7 @@ export default class Construct extends Vue {
         ref.delItem(id);
     }
     clickItem(id: string) {
-        console.log(111, id);
+        console.log(id);
     }
 }
 </script>
