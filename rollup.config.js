@@ -59,23 +59,23 @@ const plugins = [
     replace({
         "process.env.NODE_ENV": JSON.stringify("production")
     }),
-    json()
-    // filesize(),
-    // babel({
-    //     exclude: "node_modules/**"
-    // }),
-    // alias({
-    //     entries: [
-    //         {
-    //             find: "auto-form-lib", // 别名名称，作为依赖项目需要使用项目名
-    //             replacement: path.resolve(__dirname, "src"),
-    //             customResolver: resolve({
-    //                 extensions: [".js", ".jsx", ".vue", ".sass", ".scss"]
-    //             })
-    //         }
-    //     ]
-    // }),
-    // terser()
+    json(),
+    babel({
+        exclude: "node_modules/**"
+    }),
+    alias({
+        entries: [
+            {
+                find: "auto-form-lib", // 别名名称，作为依赖项目需要使用项目名
+                replacement: path.resolve(__dirname, "src"),
+                customResolver: resolve({
+                    extensions: [".js", ".jsx", ".vue", ".sass", ".scss"]
+                })
+            }
+        ]
+    }),
+    filesize(),
+    terser()
 ];
 const input = path.resolve(__dirname, "./packages/index.ts");
 
