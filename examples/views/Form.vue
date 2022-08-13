@@ -1,13 +1,13 @@
 <template>
     <div class="construct-page">
         <el-button @click="importData">导入</el-button>
-        <auto-form
+        <ct-auto-form
             v-if="show"
             ref="autoForm"
             :initData="initData"
             :value="value"
             :components-list="componentsList"
-            :components-library="componentsLibrary"></auto-form>
+            :components-library="componentsLibrary"></ct-auto-form>
         <el-button @click="save">保存</el-button>
     </div>
 </template>

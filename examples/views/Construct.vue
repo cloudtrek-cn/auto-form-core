@@ -1,6 +1,6 @@
 <template>
     <div class="construct-page">
-        <auto-construct
+        <ct-auto-construct
             ref="autoConstruct"
             :components-list="componentsList"
             :initData="initData"
@@ -20,7 +20,7 @@
             <template v-slot:customize="el">
                 <div class="customize" :id="el.element.id" @click="delItem(el.element.id)">del</div>
             </template>
-        </auto-construct>
+        </ct-auto-construct>
     </div>
 </template>
 

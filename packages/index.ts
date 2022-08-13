@@ -7,12 +7,12 @@ const components = [Construct, Form, Table];
 // 全局注册组件
 const install = (Vue: any) => {
     components.map((component) => {
-        Vue.component(component.name, component);
+        Vue.component(`ct${component.name}`, component);
     });
 };
 
 export default {
-    version: "0.4.20",
+    version: "0.4.22",
     install,
     Form,
     Construct,
