@@ -98,7 +98,12 @@ import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import draggable from "vuedraggable";
 import { getUUID, domRender } from "~/utils/utils";
 import { Input, Checkbox, Switch, Select, RadioGroup } from "element-ui";
-// Radio
+import "element-ui/lib/theme-chalk/input.css";
+import "element-ui/lib/theme-chalk/checkbox.css";
+import "element-ui/lib/theme-chalk/switch.css";
+import "element-ui/lib/theme-chalk/select.css";
+import "element-ui/lib/theme-chalk/radio-group.css";
+
 @Component({
     components: {
         draggable,
