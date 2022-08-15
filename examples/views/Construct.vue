@@ -153,7 +153,6 @@ export default class Construct extends Vue {
                     icon: "iconfont icon-ic_text",
                     title: "活动",
                     name: "活动",
-                    maximum: 5,
                     source: "internal",
                     components: "Input"
                 }

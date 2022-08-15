@@ -212,7 +212,11 @@ export default class AutoConstruct extends Vue {
         const copyEl = e.draggedContext.element;
         const elName = copyEl.name;
         const maximum = copyEl.maximum || 0;
+        if (maximum <= 0) {
+            return true;
+        }
         const elNum = this.elements.filter((item) => item.name == elName).length;
+        console.log(elNum, maximum);
         if (elNum >= maximum) {
             return false;
         }
