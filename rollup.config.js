@@ -8,6 +8,7 @@ import typescript from "rollup-plugin-typescript2";
 import postcss from "rollup-plugin-postcss";
 import alias from "@rollup/plugin-alias";
 import babel from "rollup-plugin-babel";
+import buble from "rollup-plugin-buble";
 import replace from "rollup-plugin-replace";
 import filesize from "rollup-plugin-filesize";
 import Autoprefixer from "autoprefixer";
@@ -20,7 +21,6 @@ const plugins = [
         css: false,
         exposeFilename: true
     }),
-    // buble(),
     commonjs(),
     typescript({
         tsconfigOverride: {
@@ -32,12 +32,14 @@ const plugins = [
         },
         abortOnError: false
     }),
+    // buble(),
     replace({
         "process.env.NODE_ENV": JSON.stringify("production")
     }),
     json(),
     babel({
-        exclude: "node_modules/**"
+        exclude: "node_modules/**",
+        runtimeHelpers: true
     }),
     alias({
         entries: [
@@ -55,9 +57,10 @@ const plugins = [
         minimize: true, // 生产环境开启压缩
         extensions: [".css", ".scss"], // 识别css和scss文件
         plugins: [Autoprefixer]
-    }),
-    filesize(),
-    terser()
+    })
+
+    // filesize(),
+    // terser()
 ];
 const input = path.resolve(__dirname, "./packages/index.ts");
 
@@ -65,22 +68,33 @@ export default [
     {
         input,
         output: {
-            file: "lib/index.umd.js",
+            file: "dist/index.umd.js",
             format: "umd", // umd格式为amd, cjs, iife的结合
             name: "rollup-vue-ts", // 此处修改为希望包挂在window上的名称
             sourcemap: false
         },
         plugins,
         external
-    },
-    {
-        input,
-        output: {
-            file: "lib/index.esm.js",
-            format: "es", // es格式，推荐同时输出一份es格式的, 提供给模块化打包工具
-            sourcemap: false
-        },
-        plugins,
-        external
     }
+    // {
+    //     input,
+    //     output: {
+    //         file: "lib/index.umd.js",
+    //         format: "umd", // umd格式为amd, cjs, iife的结合
+    //         name: "rollup-vue-ts", // 此处修改为希望包挂在window上的名称
+    //         sourcemap: false
+    //     },
+    //     plugins,
+    //     external
+    // },
+    // {
+    //     input,
+    //     output: {
+    //         file: "lib/index.esm.js",
+    //         format: "es", // es格式，推荐同时输出一份es格式的, 提供给模块化打包工具
+    //         sourcemap: false
+    //     },
+    //     plugins,
+    //     external
+    // }
 ];
