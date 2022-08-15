@@ -1,7 +1,7 @@
 {
     "name": "@cloudtrek/auto-form",
-    "version": "0.4.24",
-    "main": "lib/index.common.js",
+    "version": "0.4.25",
+    "main": "lib/index.umd.min.js",
     "scripts": {
         "serve": "vue-cli-service serve",
         "test:unit": "vue-cli-service test:unit",
@@ -15,7 +15,8 @@
     },
     "typings": "dist/packages/index.d.ts",
     "files": [
-        "lib"
+        "lib",
+        "dist"
     ],
     "dependencies": {
         "core-js": "^3.8.3",
