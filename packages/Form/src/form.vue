@@ -20,8 +20,6 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 import draggable from "vuedraggable";
 import { Form, FormItem } from "element-ui";
-import "element-ui/lib/theme-chalk/form-item.css";
-import "element-ui/lib/theme-chalk/form.css";
 
 @Component({
     components: {
@@ -208,6 +206,9 @@ export default class AutoForm extends Vue {
 }
 </script>
 <style lang="scss" scoped>
+@import "../../../node_modules/element-ui/lib/theme-chalk/form-item.css";
+@import "../../../node_modules/element-ui/lib/theme-chalk/form.css";
+
 .container {
     .form {
         .item {

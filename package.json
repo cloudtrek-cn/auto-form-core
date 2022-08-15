@@ -1,6 +1,6 @@
 {
     "name": "@cloudtrek/auto-form",
-    "version": "0.4.26",
+    "version": "0.4.31",
     "main": "lib/index.umd.min.js",
     "scripts": {
         "serve": "vue-cli-service serve",
@@ -27,7 +27,8 @@
         "vuedraggable": "^2.24.3"
     },
     "devDependencies": {
-        "element-ui": "^2.15.9",
+        "@babel/core": "^7.18.10",
+        "@babel/preset-env": "^7.18.10",
         "@babel/preset-typescript": "^7.18.6",
         "@rollup/plugin-alias": "^3.1.9",
         "@rollup/plugin-commonjs": "^22.0.2",
@@ -47,6 +48,7 @@
         "@vue/vue2-jest": "^27.0.0-alpha.2",
         "babel-jest": "^27.0.6",
         "cypress": "^9.7.0",
+        "element-ui": "^2.15.9",
         "eslint": "^7.32.0",
         "eslint-config-prettier": "^8.3.0",
         "eslint-plugin-prettier": "^4.0.0",

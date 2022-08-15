@@ -98,11 +98,6 @@ import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import draggable from "vuedraggable";
 import { getUUID, domRender } from "~/utils/utils";
 import { Input, Checkbox, Switch, Select, RadioGroup } from "element-ui";
-import "element-ui/lib/theme-chalk/input.css";
-import "element-ui/lib/theme-chalk/checkbox.css";
-import "element-ui/lib/theme-chalk/switch.css";
-import "element-ui/lib/theme-chalk/select.css";
-import "element-ui/lib/theme-chalk/radio-group.css";
 
 @Component({
     components: {
@@ -396,6 +391,11 @@ export default class AutoConstruct extends Vue {
 }
 </script>
 <style lang="scss" scoped>
+@import "../../../node_modules/element-ui/lib/theme-chalk/input.css";
+@import "../../../node_modules/element-ui/lib/theme-chalk/checkbox.css";
+@import "../../../node_modules/element-ui/lib/theme-chalk/switch.css";
+@import "../../../node_modules/element-ui/lib/theme-chalk/select.css";
+@import "../../../node_modules/element-ui/lib/theme-chalk/radio-group.css";
 .container {
     min-width: 1200px;
     height: 100%;
