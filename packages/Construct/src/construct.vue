@@ -97,7 +97,11 @@
 import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import draggable from "vuedraggable";
 import { getUUID, domRender } from "~/utils/utils";
-import { Input, Checkbox, Switch, Select, RadioGroup } from "element-ui";
+import Switch from "../../../ui/switch/switch.vue";
+import RadioGroup from "../../../ui/radio-group/radio-group.vue";
+import Select from "../../../ui/select/select.vue";
+import Input from "../../../ui/input/input.vue";
+import Checkbox from "../../../ui/checkbox/checkbox.vue";
 
 @Component({
     components: {
@@ -391,11 +395,11 @@ export default class AutoConstruct extends Vue {
 }
 </script>
 <style lang="scss" scoped>
-@import "../../../node_modules/element-ui/lib/theme-chalk/input.css";
-@import "../../../node_modules/element-ui/lib/theme-chalk/checkbox.css";
-@import "../../../node_modules/element-ui/lib/theme-chalk/switch.css";
-@import "../../../node_modules/element-ui/lib/theme-chalk/select.css";
-@import "../../../node_modules/element-ui/lib/theme-chalk/radio-group.css";
+@import "../../../ui/css/input.css";
+@import "../../../ui/css/checkbox.css";
+@import "../../../ui/css/switch.css";
+@import "../../../ui/css/select.css";
+@import "../../../ui/css/radio-group.css";
 .container {
     min-width: 1200px;
     height: 100%;

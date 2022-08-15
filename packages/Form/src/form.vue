@@ -19,7 +19,8 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import draggable from "vuedraggable";
-import { Form, FormItem } from "element-ui";
+import Form from "../../../ui/form/form.vue";
+import FormItem from "../../../ui/form/form-item.vue";
 
 @Component({
     components: {
@@ -194,7 +195,8 @@ export default class AutoForm extends Vue {
     }
     save() {
         return new Promise((resolve, reject) => {
-            (this.$refs["form"] as Form).validate((valid) => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (this.$refs["form"] as any).validate((valid: any) => {
                 if (valid) {
                     resolve(this.interfaceValue);
                 } else {
@@ -206,8 +208,8 @@ export default class AutoForm extends Vue {
 }
 </script>
 <style lang="scss" scoped>
-@import "../../../node_modules/element-ui/lib/theme-chalk/form-item.css";
-@import "../../../node_modules/element-ui/lib/theme-chalk/form.css";
+@import "../../../ui/css/form-item.css";
+@import "../../../ui/css/form.css";
 
 .container {
     .form {
