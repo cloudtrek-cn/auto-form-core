@@ -65,6 +65,10 @@ export default class Construct extends Vue {
                     defaultProps: {
                         clearable: true
                     },
+                    reg: [
+                        `^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$`,
+                        `^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$`
+                    ],
                     props: {
                         value: {
                             type: "input",

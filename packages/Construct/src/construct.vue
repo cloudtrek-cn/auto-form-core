@@ -264,6 +264,7 @@ export default class AutoConstruct extends Vue {
             maxTitle: e.maxTitle ? e.maxTitle : 100,
             maxPlaceholder: e.maxPlaceholder ? e.maxPlaceholder : 100,
             props: JSON.parse(JSON.stringify(e.props)),
+            reg: JSON.parse(JSON.stringify(e.reg)),
             elTemplateName: e.name
         };
         this.interfaceObj = {

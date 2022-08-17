@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container" @click="getRule">
         <el-form :model="interfaceValue" :rules="rules" ref="form">
             <el-form-item
                 :label="input.title"
@@ -52,8 +52,9 @@ export default class AutoForm extends Vue {
 
     public rules: {
         [key: string]: Array<{
-            required: boolean;
-            message: string;
+            required?: boolean;
+            validator?: (rule: unknown, value: string, callback: (err?: Error) => void) => void;
+            message?: string;
             trigger: string;
         }>;
     } = {};
@@ -101,10 +102,28 @@ export default class AutoForm extends Vue {
                 rules[item.id] = [
                     {
                         required: true,
-                        message: item.requiredMsg ? item.requiredMsg : "请输入" + item.title,
+                        message: item.requiredMsg ? item.requiredMsg + item.title : "请输入" + item.title,
                         trigger: "blur"
                     }
                 ];
+            }
+            if (item.reg) {
+                item.reg.forEach((reg) => {
+                    const regRules = [
+                        {
+                            validator: (rule: unknown, value: string, callback: (err?: Error) => void): void => {
+                                const regecp = new RegExp(reg);
+                                if (regecp.test(value)) {
+                                    callback();
+                                } else {
+                                    callback(new Error("请输入正确的" + item.title));
+                                }
+                            },
+                            trigger: "blur"
+                        }
+                    ];
+                    rules[item.id] = rules[item.id] ? rules[item.id].concat(regRules) : regRules;
+                });
             }
         });
         this.rules = rules;
@@ -179,6 +198,7 @@ export default class AutoForm extends Vue {
                                 on: {
                                     input: function (event: string) {
                                         that.$emit("input", "that", event);
+                                        self.getRule();
                                         self.interfaceValue = {
                                             ...self.interfaceValue,
                                             [id]: event
@@ -191,6 +211,12 @@ export default class AutoForm extends Vue {
                 }
             });
             new Profile().$mount(`#${id} .childen`);
+        });
+    }
+    getRule() {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (this.$refs["form"] as any).validate(() => {
+            // console.log(valid);
         });
     }
     save() {

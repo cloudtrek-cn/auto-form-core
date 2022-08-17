@@ -32,6 +32,7 @@ declare namespace AutoConstruct {
         isActive: boolean;
         components: string;
         placeholder: string;
+        reg?: string[];
         isFilter?: boolean;
         maxPlaceholder?: number;
         maxTitle?: number;
@@ -75,6 +76,7 @@ declare namespace AutoConstruct {
         maxTitle?: number;
         maxPlaceholder?: number;
         name?: string;
+        reg?: string;
         props: {
             [key: string]: customizeAttr;
         };
@@ -131,6 +133,7 @@ declare namespace AutoForm {
         title: string;
         placeholder: string;
         isFilter: boolean;
+        reg?: string[];
         required: boolean;
         requiredMsg?: string;
         props: {

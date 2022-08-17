@@ -119,60 +119,37 @@ export default class Construct extends Vue {
         title: "title",
         field: [
             {
-                id: "el-a65f067f-a9af-41b2-936e-df9eb4c047e9",
-                title: "阿斯蒂芬",
-                placeholder: "阿斯蒂芬",
-                isFilter: false,
-                required: false,
-                props: {
-                    value: {
-                        type: "input",
-                        name: "默认内容",
-                        value: "阿斯蒂芬",
-                        required: true
-                    },
-                    disabled: {
-                        type: "switch",
-                        name: "是否禁用",
-                        value: false,
-                        required: true
-                    }
-                },
-                elTemplateName: "text"
-            },
-            {
-                id: "el-0b6fb673-91c2-4990-8b3f-8870c4ca86b2",
-                title: "日期",
-                isFilter: false,
-                required: false,
-                elTemplateName: "date"
-            },
-            {
-                id: "el-abcbdc54-e3e5-4201-ac08-6cabf12c043c",
+                id: "el-a50f37d9-6b8e-415a-90a7-cea4ac2011be",
                 title: "店号/门店",
-                placeholder: "请输入3222222",
+                placeholder: "请输入",
                 isFilter: false,
-                required: true,
+                required: false,
+                maxTitle: 5,
+                maxPlaceholder: 5,
+                reg: [
+                    "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$",
+                    "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$",
+                    "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$"
+                ],
                 props: {
-                    value: {
+                    value: { type: "input", name: "默认内容", value: "", required: true },
+                    maxlength: { type: "input", name: "最大长度", props: {}, value: "", isAttr: true, required: true },
+                    test: {
                         type: "input",
-                        name: "默认内容",
+                        name: "test属性",
                         value: "",
-                        required: true
+                        required: true,
+                        props: {},
+                        attrs: { class: "test-attr", id: "test-attr-id" }
                     },
                     disabled: {
                         type: "switch",
                         name: "是否禁用",
                         value: false,
-                        required: true
+                        required: true,
+                        help: "是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用"
                     },
-                    render: {
-                        type: "render",
-                        name: "自定义组件",
-                        render: "Input",
-                        value: "value",
-                        required: true
-                    }
+                    render: { type: "render", name: "自定义组件", render: "Input", value: "value", required: true }
                 },
                 elTemplateName: "店号/门店"
             }
