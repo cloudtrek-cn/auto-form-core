@@ -101,12 +101,8 @@
                         <div class="item" v-for="(prop, index) in interfaceObj[activeElId].props" :key="index">
                             <div class="name" :class="prop.required ? 'required' : ''">
                                 {{ prop.name }}
-                                <el-popover
-                                    v-if="prop.help"
-                                    placement="bottom"
-                                    width="410"
-                                    trigger="click"
-                                    :content="prop.help">
+                                <el-popover v-if="prop.help" placement="bottom" width="410" trigger="click">
+                                    <div class="prop-popover" :class="propHelpClass">{{ prop.help }}</div>
                                     <span slot="reference">
                                         <i :class="`help-icon ${helpIcon}`"></i>
                                     </span>
@@ -153,6 +149,7 @@ export default class AutoConstruct extends Vue {
     @Prop({ type: String, default: "" }) public customizeClass!: string;
     @Prop({ type: String, default: "" }) public helpIcon!: string;
     @Prop({ type: String, default: "" }) public itemClass!: string;
+    @Prop({ type: String, default: "" }) public propHelpClass!: string;
     @Prop({ type: String, default: "" }) public containerClass!: string;
     @Prop({ type: Object, default: null }) public componentsLibrary!: {
         [key: string]: Vue.VNode;

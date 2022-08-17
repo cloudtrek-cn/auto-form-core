@@ -7,6 +7,8 @@
             @click-item="clickItem"
             :components-library="componentsLibrary"
             itemClass="item-class"
+            propHelpClass="propHelpClass"
+            containerClass="container-class"
             helpIcon="iconfont icon-ic_text"
             :title="title">
             <div class="navbar" slot="navbar">
@@ -207,5 +209,8 @@ export default class Construct extends Vue {
     border: 1px solid #000;
     line-height: 30px;
     text-align: center;
+}
+.propHelpClass {
+    color: red;
 }
 </style>
