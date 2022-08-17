@@ -33,6 +33,8 @@ declare namespace AutoConstruct {
         components: string;
         placeholder: string;
         isFilter?: boolean;
+        maxPlaceholder?: number;
+        maxTitle?: number;
         required?: boolean;
         defaultProps: {
             [key: string]: unknown;
@@ -55,6 +57,7 @@ declare namespace AutoConstruct {
         type: "input" | "select" | "switch" | "checkbox" | "radio" | "render";
         render: string;
         isAttr?: boolean;
+        help?: string;
         attrs?: {
             [key: string]: unknown;
         };
@@ -69,6 +72,8 @@ declare namespace AutoConstruct {
         isFilter: boolean;
         required: boolean;
         maximum?: number;
+        maxTitle?: number;
+        maxPlaceholder?: number;
         name?: string;
         props: {
             [key: string]: customizeAttr;

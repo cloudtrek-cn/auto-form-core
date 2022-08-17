@@ -7,6 +7,7 @@
             @click-item="clickItem"
             :components-library="componentsLibrary"
             itemClass="item-class"
+            helpIcon="iconfont icon-ic_text"
             :title="title">
             <div class="navbar" slot="navbar">
                 <div class="back">返回</div>
@@ -57,6 +58,8 @@ export default class Construct extends Vue {
                     components: "Input",
                     placeholder: "请输入",
                     maximum: 5,
+                    maxTitle: 5,
+                    maxPlaceholder: 5,
                     defaultProps: {
                         clearable: true
                     },
@@ -90,7 +93,8 @@ export default class Construct extends Vue {
                             type: "switch",
                             name: "是否禁用",
                             value: false,
-                            required: true
+                            required: true,
+                            help: `是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用`
                         },
                         render: {
                             type: "render",
@@ -161,66 +165,7 @@ export default class Construct extends Vue {
     ];
     public initData = {
         title: "title",
-        field: [
-            {
-                id: "el-a65f067f-a9af-41b2-936e-df9eb4c047e9",
-                title: "阿斯蒂芬",
-                placeholder: "阿斯蒂芬",
-                isFilter: false,
-                required: false,
-                props: {
-                    value: {
-                        type: "input",
-                        name: "默认内容",
-                        value: "阿斯蒂芬",
-                        required: true
-                    },
-                    disabled: {
-                        type: "switch",
-                        name: "是否禁用",
-                        value: false,
-                        required: true
-                    }
-                },
-                elTemplateName: "text"
-            },
-            {
-                id: "el-0b6fb673-91c2-4990-8b3f-8870c4ca86b2",
-                title: "日期",
-                isFilter: false,
-                required: false,
-                elTemplateName: "date"
-            },
-            {
-                id: "el-abcbdc54-e3e5-4201-ac08-6cabf12c043c",
-                title: "店号/门店",
-                placeholder: "请输入3222222",
-                isFilter: false,
-                required: true,
-                props: {
-                    value: {
-                        type: "input",
-                        name: "默认内容",
-                        value: "",
-                        required: true
-                    },
-                    disabled: {
-                        type: "switch",
-                        name: "是否禁用",
-                        value: false,
-                        required: true
-                    },
-                    render: {
-                        type: "render",
-                        name: "自定义组件",
-                        render: "Input",
-                        value: "value",
-                        required: true
-                    }
-                },
-                elTemplateName: "店号/门店"
-            }
-        ]
+        field: []
     };
     save() {
         const data = (this.$refs["autoConstruct"] as typeof AutoForm.Construct.prototype).save();

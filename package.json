@@ -1,6 +1,6 @@
 {
     "name": "@cloudtrek/auto-form",
-    "version": "0.4.36",
+    "version": "0.4.37",
     "main": "dist/index.umd.js",
     "scripts": {
         "serve": "vue-cli-service serve",

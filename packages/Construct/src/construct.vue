@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container" :class="containerClass">
         <div class="nav-bar">
             <slot name="navbar"></slot>
         </div>
@@ -25,6 +25,7 @@
                 </div>
             </div>
             <div class="center">
+                <div class="elements-nodata" v-if="!elements.length">从左侧拖拽来添加字段</div>
                 <draggable
                     :list="elements"
                     class="element-list"
@@ -51,44 +52,76 @@
                     </div>
                 </draggable>
             </div>
-            <div class="right" v-if="activeElId">
-                <div class="right-title">字段属性</div>
-                <div class="attribute default-attribute">
-                    <div class="item">
-                        <div class="name required">标题</div>
-                        <div class="input-box">
-                            <el-input class="attribute-input" v-model="interfaceObj[activeElId].title" />
+            <div class="right">
+                <template v-if="activeElId">
+                    <div class="right-title">字段属性</div>
+                    <div class="attribute default-attribute">
+                        <div class="item">
+                            <div class="name required">标题</div>
+                            <div class="input-box">
+                                <el-input
+                                    class="attribute-input"
+                                    :maxlength="interfaceObj[activeElId].maxTitle"
+                                    v-model="interfaceObj[activeElId].title" />
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="input-box">
+                                <el-checkbox v-model="interfaceObj[activeElId].isFilter">设置为筛选项</el-checkbox>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="name">
+                                提示文字
+                                <el-popover
+                                    placement="bottom-start"
+                                    width="244"
+                                    trigger="click"
+                                    v-if="interfaceObj[activeElId].maxPlaceholder"
+                                    :content="`最多输入${interfaceObj[activeElId].maxPlaceholder}个字符；如果不需要提示，清空即可。`">
+                                    <span slot="reference">
+                                        <i :class="`help-icon ${helpIcon}`"></i>
+                                    </span>
+                                </el-popover>
+                            </div>
+                            <div class="input-box">
+                                <el-input
+                                    class="attribute-input"
+                                    @input="changePlaceholder(activeElId)"
+                                    :maxlength="interfaceObj[activeElId].maxPlaceholder || 0"
+                                    v-model="interfaceObj[activeElId].placeholder" />
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="name">校验</div>
+                            <div class="input-box">
+                                <el-checkbox v-model="interfaceObj[activeElId].required">必填</el-checkbox>
+                            </div>
+                        </div>
+                        <div class="item" v-for="(prop, index) in interfaceObj[activeElId].props" :key="index">
+                            <div class="name" :class="prop.required ? 'required' : ''">
+                                {{ prop.name }}
+                                <el-popover
+                                    v-if="prop.help"
+                                    placement="bottom"
+                                    width="410"
+                                    trigger="click"
+                                    :content="prop.help">
+                                    <span slot="reference">
+                                        <i :class="`help-icon ${helpIcon}`"></i>
+                                    </span>
+                                </el-popover>
+                            </div>
+                            <div class="input-box" :id="`${activeElId}_prop_${index}`">
+                                <div class="childen"></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="item">
-                        <div class="input-box">
-                            <el-checkbox v-model="interfaceObj[activeElId].isFilter">设置为筛选项</el-checkbox>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="name">提示文字</div>
-                        <div class="input-box">
-                            <el-input
-                                class="attribute-input"
-                                @input="changePlaceholder(activeElId)"
-                                v-model="interfaceObj[activeElId].placeholder" />
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="name">校验</div>
-                        <div class="input-box">
-                            <el-checkbox v-model="interfaceObj[activeElId].required">必填</el-checkbox>
-                        </div>
-                    </div>
-                    <div class="item" v-for="(prop, index) in interfaceObj[activeElId].props" :key="index">
-                        <div class="name" :class="prop.required ? 'required' : ''">
-                            {{ prop.name }}
-                        </div>
-                        <div class="input-box" :id="`${activeElId}_prop_${index}`">
-                            <div class="childen"></div>
-                        </div>
-                    </div>
-                </div>
+                </template>
+                <template v-else>
+                    <div class="elements-nodata" v-if="!elements.length">请先添加字段</div>
+                    <div class="elements-nodata" v-else>点击选择字段后可编辑字段</div>
+                </template>
             </div>
         </div>
     </div>
@@ -118,7 +151,9 @@ export default class AutoConstruct extends Vue {
     }>;
     @Prop({ type: String, default: "未命名" }) public title!: string;
     @Prop({ type: String, default: "" }) public customizeClass!: string;
+    @Prop({ type: String, default: "" }) public helpIcon!: string;
     @Prop({ type: String, default: "" }) public itemClass!: string;
+    @Prop({ type: String, default: "" }) public containerClass!: string;
     @Prop({ type: Object, default: null }) public componentsLibrary!: {
         [key: string]: Vue.VNode;
     };
@@ -215,7 +250,6 @@ export default class AutoConstruct extends Vue {
             return true;
         }
         const elNum = this.elements.filter((item) => item.name == elName).length;
-        console.log(elNum, maximum);
         if (elNum >= maximum) {
             return false;
         }
@@ -230,6 +264,8 @@ export default class AutoConstruct extends Vue {
             placeholder: e.placeholder,
             isFilter: e.isFilter ? e.isFilter : false,
             required: e.required ? e.required : false,
+            maxTitle: e.maxTitle ? e.maxTitle : 100,
+            maxPlaceholder: e.maxPlaceholder ? e.maxPlaceholder : 100,
             props: e.props,
             elTemplateName: e.name
         };
@@ -479,6 +515,7 @@ export default class AutoConstruct extends Vue {
             }
         }
         .center {
+            position: relative;
             flex: 1;
             background: #ffffff;
             box-shadow: 0px 1px 6px 0px rgba(196, 199, 204, 0.5);
@@ -535,6 +572,7 @@ export default class AutoConstruct extends Vue {
             }
         }
         .right {
+            position: relative;
             width: 300px;
             flex: 0 0 300px;
             background: #ffffff;
@@ -589,6 +627,19 @@ export default class AutoConstruct extends Vue {
                     }
                 }
             }
+        }
+        .elements-nodata {
+            position: absolute;
+            text-align: center;
+            font-size: 16px;
+            width: 300px;
+            font-family: SourceHanSansCN-Regular, SourceHanSansCN;
+            font-weight: 400;
+            color: #939599;
+            top: 50%;
+            left: 50%;
+            margin-top: -8px;
+            margin-left: -150px;
         }
     }
 }
