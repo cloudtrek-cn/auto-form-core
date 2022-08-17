@@ -263,7 +263,7 @@ export default class AutoConstruct extends Vue {
             required: e.required ? e.required : false,
             maxTitle: e.maxTitle ? e.maxTitle : 100,
             maxPlaceholder: e.maxPlaceholder ? e.maxPlaceholder : 100,
-            props: e.props,
+            props: JSON.parse(JSON.stringify(e.props)),
             elTemplateName: e.name
         };
         this.interfaceObj = {
@@ -306,7 +306,7 @@ export default class AutoConstruct extends Vue {
             ...(el.defaultProps ? el.defaultProps : {})
         };
         for (const key in el.props) {
-            props[key] = el.props[key].value;
+            props[key] = this.interfaceObj[id].props[key].value || el.props[key].value;
         }
 
         domRender(id, render, {
