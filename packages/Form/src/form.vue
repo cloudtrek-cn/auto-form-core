@@ -113,6 +113,7 @@ export default class AutoForm extends Vue {
                         {
                             validator: (rule: unknown, value: string, callback: (err?: Error) => void): void => {
                                 const regecp = new RegExp(reg);
+                                console.log(reg, regecp.test(value), value);
                                 if (regecp.test(value)) {
                                     callback();
                                 } else {
@@ -198,11 +199,11 @@ export default class AutoForm extends Vue {
                                 on: {
                                     input: function (event: string) {
                                         that.$emit("input", "that", event);
-                                        self.getRule();
                                         self.interfaceValue = {
                                             ...self.interfaceValue,
                                             [id]: event
                                         };
+                                        self.getRule();
                                     }
                                 }
                             })

@@ -126,11 +126,7 @@ export default class Construct extends Vue {
                 required: false,
                 maxTitle: 5,
                 maxPlaceholder: 5,
-                reg: [
-                    "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$",
-                    "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$",
-                    "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$"
-                ],
+                reg: [`^(-)?(([0-9])|([1-9]([0-9]+)))(.[0-9]+)?$`],
                 props: {
                     value: { type: "input", name: "默认内容", value: "", required: true },
                     maxlength: { type: "input", name: "最大长度", props: {}, value: "", isAttr: true, required: true },
