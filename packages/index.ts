@@ -12,7 +12,7 @@ const install = (Vue: any) => {
 };
 
 export default {
-    version: "0.4.40",
+    version: "0.4.41",
     install,
     Form,
     Construct,

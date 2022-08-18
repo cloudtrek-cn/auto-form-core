@@ -113,12 +113,15 @@ export default class AutoForm extends Vue {
                         {
                             validator: (rule: unknown, value: string, callback: (err?: Error) => void): void => {
                                 const regecp = new RegExp(reg);
-                                console.log(reg, regecp.test(value), value);
+                                if (!value && !value) {
+                                    callback();
+                                    return;
+                                }
                                 if (regecp.test(value)) {
                                     callback();
-                                } else {
-                                    callback(new Error("请输入正确的" + item.title));
+                                    return;
                                 }
+                                callback(new Error("请输入正确的" + item.title));
                             },
                             trigger: "blur"
                         }
