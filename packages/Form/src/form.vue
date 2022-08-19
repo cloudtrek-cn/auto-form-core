@@ -1,5 +1,6 @@
 <template>
-    <div class="container" @click="getRule">
+    <!-- @click="getRule()" -->
+    <div class="container">
         <el-form :model="interfaceValue" :rules="rules" ref="form">
             <el-form-item
                 :label="input.title"
@@ -121,7 +122,10 @@ export default class AutoForm extends Vue {
                                     callback();
                                     return;
                                 }
-                                callback(new Error("请输入正确的" + item.title));
+                                item.requiredMsg;
+                                callback(
+                                    new Error(`${item.requiredMsg ? item.requiredMsg : "请输入"}正确的${item.title}`)
+                                );
                             },
                             trigger: "blur"
                         }
@@ -206,7 +210,9 @@ export default class AutoForm extends Vue {
                                             ...self.interfaceValue,
                                             [id]: event
                                         };
-                                        self.getRule();
+                                        Vue.nextTick().then(() => {
+                                            self.getRule(id);
+                                        });
                                     }
                                 }
                             })
@@ -217,11 +223,17 @@ export default class AutoForm extends Vue {
             new Profile().$mount(`#${id} .childen`);
         });
     }
-    getRule() {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (this.$refs["form"] as any).validate(() => {
-            // console.log(valid);
-        });
+    getRule(props?: string) {
+        const form: {
+            validateField: (props: string) => void;
+            validate: () => void;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } = this.$refs["form"] as any;
+        if (props) {
+            form.validateField(props);
+        } else {
+            form.validate();
+        }
     }
     save() {
         return new Promise((resolve, reject) => {

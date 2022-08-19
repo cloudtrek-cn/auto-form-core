@@ -5,6 +5,7 @@
             :components-list="componentsList"
             :initData="initData"
             @click-item="clickItem"
+            @changeValue="changeValue"
             :components-library="componentsLibrary"
             itemClass="item-class"
             propHelpClass="propHelpClass"
@@ -123,6 +124,7 @@ export default class Construct extends Vue {
                     title: "文本",
                     name: "text",
                     maximum: 3,
+                    placeholder: "请输入",
                     source: "internal",
                     components: "Input",
                     defaultProps: {
@@ -171,7 +173,91 @@ export default class Construct extends Vue {
     ];
     public initData = {
         title: "title",
-        field: []
+        field: [
+            {
+                id: "el-e44696e8-1a44-4738-891b-88138b918680",
+                title: "店号/门店",
+                placeholder: "请输入",
+                isFilter: false,
+                required: false,
+                maxTitle: 5,
+                maxPlaceholder: 5,
+                props: {
+                    value: { type: "input", name: "默认内容", value: "", required: true },
+                    maxlength: { type: "input", name: "最大长度", props: {}, value: "", isAttr: true, required: true },
+                    test: {
+                        type: "input",
+                        name: "test属性",
+                        value: "",
+                        required: true,
+                        props: {},
+                        attrs: { class: "test-attr", id: "test-attr-id" }
+                    },
+                    disabled: {
+                        type: "switch",
+                        name: "是否禁用",
+                        value: false,
+                        required: true,
+                        help: "是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用"
+                    },
+                    render: { type: "render", name: "自定义组件", render: "Input", value: "value", required: true }
+                },
+                reg: [
+                    "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$",
+                    "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$"
+                ],
+                elTemplateName: "店号/门店"
+            },
+            {
+                id: "el-bb34609e-7ddf-498f-ba27-b52a44975815",
+                title: "文本",
+                placeholder: "请输入",
+                isFilter: false,
+                required: false,
+                maxTitle: 100,
+                maxPlaceholder: 100,
+                props: {
+                    value: { type: "input", name: "默认内容", value: "", required: true },
+                    disabled: { type: "switch", name: "是否禁用", value: false, required: true }
+                },
+                reg: [],
+                elTemplateName: "text"
+            },
+            {
+                id: "el-db5009be-47e3-49c9-acba-67e3f13c0dc2",
+                title: "店号/门店",
+                placeholder: "请输入",
+                isFilter: false,
+                required: false,
+                maxTitle: 5,
+                maxPlaceholder: 5,
+                props: {
+                    value: { type: "input", name: "默认内容", value: "", required: true },
+                    maxlength: { type: "input", name: "最大长度", props: {}, value: "", isAttr: true, required: true },
+                    test: {
+                        type: "input",
+                        name: "test属性",
+                        value: "",
+                        required: true,
+                        props: {},
+                        attrs: { class: "test-attr", id: "test-attr-id" }
+                    },
+                    disabled: {
+                        type: "switch",
+                        name: "是否禁用",
+                        value: false,
+                        required: true,
+                        help: "是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用是否禁用"
+                    },
+                    render: { type: "render", name: "自定义组件", render: "Input", value: "value", required: true }
+                },
+                reg: [
+                    "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$",
+                    "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$"
+                ],
+                elTemplateName: "店号/门店"
+            }
+        ]
     };
     save() {
         const data = (this.$refs["autoConstruct"] as typeof AutoForm.Construct.prototype).save();
@@ -183,8 +269,11 @@ export default class Construct extends Vue {
         const ref = this.$refs["autoConstruct"] as typeof AutoForm.Construct.prototype;
         ref.delItem(id);
     }
-    clickItem(id: string) {
-        console.log(id);
+    clickItem() {
+        // console.log(id);
+    }
+    changeValue(changeValue: string) {
+        console.log("changeValue------", changeValue);
     }
 }
 </script>

@@ -30,6 +30,7 @@
                     :list="elements"
                     class="element-list"
                     ghostClass="ghost-item"
+                    @add="addItem"
                     :group="{
                         name: 'form-group',
                         pull: false,
@@ -46,7 +47,7 @@
                         <div class="element" :id="element.id">
                             <div class="childen"></div>
                         </div>
-                        <div :class="customizeClass" @click.stop.self="clickCustomize">
+                        <div :class="customizeClass" @click.stop.self="clickCustomize(element.id)">
                             <slot name="customize" v-bind:element="element"></slot>
                         </div>
                     </div>
@@ -61,13 +62,18 @@
                             <div class="input-box">
                                 <el-input
                                     class="attribute-input"
+                                    @input="changeValue(activeElId, 'title', interfaceObj[activeElId].title)"
                                     :maxlength="interfaceObj[activeElId].maxTitle"
                                     v-model="interfaceObj[activeElId].title" />
                             </div>
                         </div>
                         <div class="item">
                             <div class="input-box">
-                                <el-checkbox v-model="interfaceObj[activeElId].isFilter">设置为筛选项</el-checkbox>
+                                <el-checkbox
+                                    @change="changeValue(activeElId, 'isFilter', interfaceObj[activeElId].isFilter)"
+                                    v-model="interfaceObj[activeElId].isFilter">
+                                    设置为筛选项
+                                </el-checkbox>
                             </div>
                         </div>
                         <div class="item">
@@ -174,7 +180,9 @@ export default class AutoConstruct extends Vue {
             if (this.componentsListObj[elTemplateName]) {
                 let el = this.cloneElement({
                     ...JSON.parse(JSON.stringify(this.componentsListObj[elTemplateName])),
-                    id
+                    id,
+                    isClickActive: Number(index) === 0,
+                    isSetValue: true
                 });
                 el.placeholder = placeholder;
                 el.props = props;
@@ -263,8 +271,8 @@ export default class AutoConstruct extends Vue {
             required: e.required ? e.required : false,
             maxTitle: e.maxTitle ? e.maxTitle : 100,
             maxPlaceholder: e.maxPlaceholder ? e.maxPlaceholder : 100,
-            props: JSON.parse(JSON.stringify(e.props)),
-            reg: JSON.parse(JSON.stringify(e.reg)),
+            props: JSON.parse(JSON.stringify(e.props || {})),
+            reg: JSON.parse(JSON.stringify(e.reg || [])),
             elTemplateName: e.name
         };
         this.interfaceObj = {
@@ -280,8 +288,7 @@ export default class AutoConstruct extends Vue {
     private watchForms(elements: AutoConstruct.elementItem[]) {
         Vue.nextTick().then(() => {
             elements.forEach((element) => {
-                const id = element.id;
-                this.setRender(id, element);
+                this.setRender(element.id, element);
             });
         });
     }
@@ -313,7 +320,10 @@ export default class AutoConstruct extends Vue {
         domRender(id, render, {
             props,
             attrs: {
-                placeholder: this.interfaceObj[id].placeholder || el.placeholder
+                placeholder:
+                    this.interfaceObj[id].placeholder === "" || this.interfaceObj[id].placeholder
+                        ? this.interfaceObj[id].placeholder
+                        : el.placeholder
             }
         });
         // 渲染自定义属性
@@ -345,6 +355,7 @@ export default class AutoConstruct extends Vue {
     }
     public changePlaceholder(id: string) {
         this.uploadInterfaceObj(id);
+        this.changeValue(id, "placeholder", this.interfaceObj[id].placeholder);
     }
     private setPropRender(id: string, render: AutoConstruct.AnyObj, propKey: string, children?: Vue.VNodeChildren) {
         const self = this;
@@ -377,6 +388,7 @@ export default class AutoConstruct extends Vue {
                                         that.$emit("input", "that", event);
                                         self.interfaceObj[id].props[propKey].value = event;
                                         self.uploadInterfaceObj(id);
+                                        self.changeValue(id, propKey, self.interfaceObj[id].props[propKey].value);
                                     }
                                 }
                             },
@@ -423,8 +435,21 @@ export default class AutoConstruct extends Vue {
             delete this.interfaceObj[e.id];
         });
     }
-    public clickCustomize() {
-        //
+    public clickCustomize(id: string) {
+        this.$emit("clickCustomize", id);
+    }
+    public addItem(e: AutoConstruct.draggableObj) {
+        this.selectComponent(this.elements[e.newIndex], e.newIndex);
+    }
+    /**
+     * 右侧内容变更通知
+     */
+    public changeValue(id: string, name: string, value: unknown) {
+        this.$emit("changeValue", {
+            id,
+            name,
+            value
+        });
     }
 }
 </script>

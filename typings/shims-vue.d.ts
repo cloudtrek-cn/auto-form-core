@@ -21,6 +21,7 @@ declare namespace AutoConstruct {
         draggedContext: {
             element: elAttribute;
         };
+        newIndex: number;
     }
 
     interface elementItem {
@@ -30,6 +31,8 @@ declare namespace AutoConstruct {
         source: string;
         name: string;
         isActive: boolean;
+        isSetValue?: boolean;
+        isClickActive?: boolean;
         components: string;
         placeholder: string;
         reg?: string[];
