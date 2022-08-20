@@ -250,7 +250,7 @@ export default class Construct extends Vue {
         this.show = true;
     }
     public value = {
-        // "el-19572d6a-05af-4b59-b08e-9c32b16fdb29": "阿斯顿发斯蒂芬",
+        "el-a50f37d9-6b8e-415a-90a7-cea4ac2011be": false
         // "el-a65f067f-a9af-41b2-936e-df9eb4c047e9": "是超大上发大水",
         // "el-0b6fb673-91c2-4990-8b3f-8870c4ca86b2": "测试日期",
         // "el-abcbdc54-e3e5-4201-ac08-6cabf12c043c": null,

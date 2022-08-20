@@ -84,7 +84,8 @@ export default class AutoForm extends Vue {
             if (item.props && item.props.value && item.props.value.value) {
                 defaultValue = item.props.value.value;
             }
-            this.interfaceValue[item.id] = value[item.id] ? value[item.id] : defaultValue;
+            this.interfaceValue[item.id] =
+                value[item.id] != null || typeof value[item.id] != undefined ? value[item.id] : defaultValue;
         });
     }
     initDomList() {
