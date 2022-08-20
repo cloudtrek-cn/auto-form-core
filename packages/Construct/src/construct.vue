@@ -31,6 +31,7 @@
                     class="element-list"
                     ghostClass="ghost-item"
                     @add="addItem"
+                    @sort="sort"
                     :group="{
                         name: 'form-group',
                         pull: false,
@@ -450,6 +451,11 @@ export default class AutoConstruct extends Vue {
             name,
             value
         });
+    }
+    public sort(e: AutoConstruct.draggableObj) {
+        if (!this.elements[e.newIndex].isActive) {
+            this.selectComponent(this.elements[e.newIndex], e.newIndex);
+        }
     }
 }
 </script>
